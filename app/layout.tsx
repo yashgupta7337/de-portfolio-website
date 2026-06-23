@@ -1,6 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import ParticleField from "@/components/ParticleField";
+import CursorSpotlight from "@/components/CursorSpotlight";
+import CursorRings from "@/components/CursorRings";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -56,6 +59,9 @@ export default function RootLayout({
           <span className="blob blob-3" />
         </div>
         <div className="bg-noise" aria-hidden />
+        <ParticleField />
+        <CursorSpotlight />
+        <CursorRings />
         {children}
       </body>
     </html>

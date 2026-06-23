@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { profile } from "@/lib/content";
 import Orchestrator from "./Orchestrator";
+import TypeWriter from "./TypeWriter";
 
 const pills = ["ClickHouse", "Spark", "Airflow", "AWS", "dbt"];
 
@@ -43,7 +44,7 @@ export default function Hero() {
             className="mt-5 text-balance text-[clamp(2.4rem,6vw,4.25rem)] font-extrabold leading-[1.04] tracking-tight"
           >
             I build data platforms that are{" "}
-            <span className="grad-text">fast, reliable &amp; cheap</span> to run.
+            <TypeWriter /> to run.
           </motion.h1>
 
           <motion.p
