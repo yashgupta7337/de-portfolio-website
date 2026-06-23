@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Static tokens (accents / fonts / radius) — compile-time
+   ============================================================ */
+@theme {
+  --color-blue: #3b82f6;
+  --color-cyan: #22d3ee;
+  --color-emerald: #10b981;
+  --color-violet: #8b5cf6;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --radius-xl2: 1.5rem;
+}
+
+/* ============================================================
+   Runtime theme tokens — DARK is the default (:root)
+   ============================================================ */
+:root {
+  --color-ink: #07070a;
+  --color-ink-2: #0c0d12;
+  --color-fg: #f5f7fa;
+  --color-muted: #9ca3af;
+
+  --color-surface: rgba(255, 255, 255, 0.04);
+  --surface-1: rgba(255, 255, 255, 0.03);
+  --surface-2: rgba(0, 0, 0, 0.22);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.2);
+
+  --fg-soft: rgba(245, 247, 250, 0.82);
+  --fg-mute: rgba(245, 247, 250, 0.62);
+  --fg-dim: rgba(245, 247, 250, 0.42);
+
+  --on-accent: #04121a;
+  --accent-text: #22d3ee;
+  --grad: linear-gradient(100deg, #3b82f6, #22d3ee 45%, #10b981);
+
+  --grid-line: rgba(255, 255, 255, 0.035);
+  --noise-opacity: 0.04;
+  --blob-opacity: 0.5;
+  --blob-opacity-3: 0.4;
+
+  --selection-bg: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+
+  color-scheme: dark;
+}
+
+/* ============================================================
+   LIGHT overrides
+   ============================================================ */
+html.light {
+  --color-ink: #f4f6fb;
+  --color-ink-2: #ffffff;
+  --color-fg: #0b1220;
+  --color-muted: #566072;
+
+  --color-surface: rgba(255, 255, 255, 0.72);
+  --surface-1: rgba(12, 18, 32, 0.025);
+  --surface-2: rgba(12, 18, 32, 0.045);
+  --color-border: rgba(12, 18, 32, 0.1);
+  --border-strong: rgba(12, 18, 32, 0.16);
+
+  --fg-soft: rgba(11, 18, 32, 0.84);
+  --fg-mute: rgba(11, 18, 32, 0.62);
+  --fg-dim: rgba(11, 18, 32, 0.45);
+
+  --on-accent: #04121a;
+  --accent-text: #0e7490;
+  --grad: linear-gradient(100deg, #2563eb, #0891b2 45%, #059669);
+
+  --grid-line: rgba(12, 18, 32, 0.05);
+  --noise-opacity: 0.022;
+  --blob-opacity: 0.3;
+  --blob-opacity-3: 0.22;
+
+  --selection-bg: color-mix(in srgb, var(--color-cyan) 30%, transparent);
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   .panel-dark — pins a dark "device/dashboard" context
+   regardless of the active theme (hero orchestrator, project visuals)
+   ============================================================ */
+.panel-dark {
+  --color-fg: #f5f7fa;
+  --color-muted: #9ca3af;
+  --color-surface: rgba(16, 18, 26, 0.92);
+  --surface-1: rgba(255, 255, 255, 0.04);
+  --surface-2: rgba(0, 0, 0, 0.3);
+  --color-border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.22);
+  --fg-soft: rgba(245, 247, 250, 0.82);
+  --fg-mute: rgba(245, 247, 250, 0.62);
+  --fg-dim: rgba(245, 247, 250, 0.42);
+  --accent-text: #22d3ee;
+  --grad: linear-gradient(100deg, #3b82f6, #22d3ee 45%, #10b981);
+  background-color: #0b0d13;
+  color: var(--color-fg);
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--color-fg);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--color-blue), var(--color-emerald));
+  border-radius: 99px;
+  border: 2px solid var(--color-ink);
+}
+
+/* ============================================================
+   Background layers (fixed)
+   ============================================================ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: var(--blob-opacity);
+  will-change: transform;
+  transition: opacity 0.4s ease;
+}
+.blob-1 {
+  width: 46vw;
+  height: 46vw;
+  top: -12vw;
+  left: -8vw;
+  background: radial-gradient(circle, var(--color-blue), transparent 65%);
+  animation: drift1 22s ease-in-out infinite;
+}
+.blob-2 {
+  width: 40vw;
+  height: 40vw;
+  top: 8vw;
+  right: -10vw;
+  background: radial-gradient(circle, var(--color-cyan), transparent 65%);
+  animation: drift2 26s ease-in-out infinite;
+}
+.blob-3 {
+  width: 38vw;
+  height: 38vw;
+  bottom: -14vw;
+  left: 28vw;
+  background: radial-gradient(circle, var(--color-emerald), transparent 65%);
+  animation: drift3 30s ease-in-out infinite;
+  opacity: var(--blob-opacity-3);
+}
+
+.bg-noise {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(6vw, 5vw) scale(1.1); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-5vw, 7vw) scale(1.08); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4vw, -6vw) scale(1.12); }
+}
+
+/* ============================================================
+   Reusable utilities
+   ============================================================ */
+.grad-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glass {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: background-color 0.4s ease, border-color 0.35s ease;
+}
+
+.glass-hover {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s,
+    box-shadow 0.35s, background 0.35s;
+}
+.glass-hover:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--color-cyan) 40%, transparent);
+  box-shadow: 0 24px 60px -20px rgba(34, 211, 238, 0.25);
+}
+
+.section {
+  position: relative;
+  padding-block: clamp(5rem, 11vh, 9rem);
+}
+
+.container-x {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+/* Dotted flowing connector */
+@keyframes flow {
+  to { background-position: 24px 0; }
+}
+.flow-line {
+  background-image: linear-gradient(90deg, var(--color-cyan) 50%, transparent 50%);
+  background-size: 14px 2px;
+  background-repeat: repeat-x;
+  animation: flow 0.9s linear infinite;
+}
+
+/* Live pulse dot */
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.5); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-emerald);
+  animation: pulse-ring 2s infinite;
+}
+
+/* Bar chart pulse */
+@keyframes barpulse {
+  0%, 100% { transform: scaleY(0.82); opacity: 0.85; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .blob { animation: none; }
+}
