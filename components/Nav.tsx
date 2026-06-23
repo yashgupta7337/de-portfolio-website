@@ -32,7 +32,7 @@ export default function Nav() {
       <div
         className={`container-x flex items-center justify-between rounded-2xl transition-all duration-300 ${
           scrolled
-            ? "glass !px-4 py-2 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]"
+            ? "nav-glass !px-4 py-2 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.5)]"
             : "px-0 py-1"
         }`}
       >

@@ -29,6 +29,7 @@
   --surface-2: rgba(0, 0, 0, 0.22);
   --color-border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.2);
+  --nav-surface: rgba(9, 10, 14, 0.55);
 
   --fg-soft: rgba(245, 247, 250, 0.82);
   --fg-mute: rgba(245, 247, 250, 0.62);
@@ -62,6 +63,7 @@ html.light {
   --surface-2: rgba(12, 18, 32, 0.045);
   --color-border: rgba(12, 18, 32, 0.1);
   --border-strong: rgba(12, 18, 32, 0.16);
+  --nav-surface: rgba(255, 255, 255, 0.6);
 
   --fg-soft: rgba(11, 18, 32, 0.84);
   --fg-mute: rgba(11, 18, 32, 0.62);
@@ -235,6 +237,15 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   transition: background-color 0.4s ease, border-color 0.35s ease;
+}
+
+/* Translucent frosted bar for the scrolled navbar (more see-through than card glass) */
+.nav-glass {
+  background: var(--nav-surface);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .glass-hover {

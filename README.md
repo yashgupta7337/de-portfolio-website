@@ -39,4 +39,11 @@ components/     Nav, Hero, Orchestrator (hero dashboard), ImpactStats,
                 About, Experience, Skills, Projects, Education, Contact, Footer
 lib/content.ts  single source of truth for all content
 public/         résumé PDF
+app/icon.svg    favicon (custom shield)
 ```
+
+## Credits
+
+- **Favicon** — custom shield SVG (`app/icon.svg`), drawn to match the site's
+  blue→cyan→emerald gradient. Inspired by
+  [Shield icons created by Freepik — Flaticon](https://www.flaticon.com/free-icons/shield).
