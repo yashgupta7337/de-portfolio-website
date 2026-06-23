@@ -2,34 +2,49 @@
 
 import { useEffect, useRef } from "react";
 
-interface Particle {
+// ─── Ring particle (circle outline that pulses and repels from cursor) ──────────
+interface Ring {
   x: number;
   y: number;
-  vx: number;
-  vy: number;
-  r: number;
+  baseR: number;   // resting radius (px)
+  r: number;       // current radius
+  phase: number;   // sine-wave phase offset
+  speed: number;   // pulse speed (rad/s)
+  alpha: number;   // base opacity 0.1–0.9
+  isGreen: boolean; // green or violet
+  ox: number;      // repulsion offset x
+  oy: number;      // repulsion offset y
 }
 
-const CONNECT_DIST = 120;
-const REPEL_DIST   = 160;
-const REPEL_FORCE  = 0.55;
+const REPEL_DIST  = 160;
+const REPEL_FORCE = 0.08;
+const SPRING      = 0.06;   // spring back to origin
+const DAMPEN      = 0.82;
 
-function makeParticle(w: number, h: number): Particle {
-  const speed = 0.3 + Math.random() * 0.45;
-  const angle = Math.random() * Math.PI * 2;
-  return {
-    x:  Math.random() * w,
-    y:  Math.random() * h,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed,
-    r:  1.5 + Math.random() * 1.2,
-  };
-}
+const GREEN  = "rgba(52,168,83,";    // Google Antigravity green
+const VIOLET = "rgba(139,92,246,";   // violet
 
-function getColors(isLight: boolean) {
-  return isLight
-    ? { dot: "rgba(37,99,235,0.28)",  line: "rgba(37,99,235,0.07)"  }
-    : { dot: "rgba(34,211,238,0.35)", line: "rgba(34,211,238,0.08)" };
+function makeRings(W: number, H: number, count: number): Ring[] {
+  const rows = 25;
+  const rings: Ring[] = [];
+  const rowH = H / rows;
+
+  for (let i = 0; i < count; i++) {
+    const row = Math.floor((i / count) * rows);
+    rings.push({
+      x:      Math.random() * W,
+      y:      rowH * row + Math.random() * rowH,
+      baseR:  2 + Math.random() * 3.5,
+      r:      2,
+      phase:  Math.random() * Math.PI * 2,
+      speed:  0.4 + Math.random() * 0.7,
+      alpha:  0.1 + Math.random() * 0.8,
+      isGreen: Math.random() > 0.48,
+      ox: 0,
+      oy: 0,
+    });
+  }
+  return rings;
 }
 
 export default function ParticleField() {
@@ -44,10 +59,10 @@ export default function ParticleField() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let W = 0, H = 0;
-    let particles: Particle[] = [];
+    let rings: Ring[] = [];
     let mx = -9999, my = -9999;
     let rafId = 0;
-    let isLight = document.documentElement.classList.contains("light");
+    let t = 0;
 
     function resize() {
       const dpr = window.devicePixelRatio || 1;
@@ -58,97 +73,72 @@ export default function ParticleField() {
       canvas!.style.width  = W + "px";
       canvas!.style.height = H + "px";
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      const count = W < 768 ? 55 : 90;
-      particles = Array.from({ length: count }, () => makeParticle(W, H));
+      const count = W < 768 ? 50 : 80;
+      rings = makeRings(W, H, count);
     }
 
-    function draw() {
+    function frame() {
       ctx!.clearRect(0, 0, W, H);
-      const colors = getColors(isLight);
+      t += 0.016;
 
-      for (let i = 0; i < particles.length; i++) {
-        const p = particles[i];
-
+      for (const ring of rings) {
         // Cursor repulsion
-        const dx = p.x - mx;
-        const dy = p.y - my;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < REPEL_DIST && dist > 0) {
-          const force = (REPEL_DIST - dist) / REPEL_DIST * REPEL_FORCE;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
+        const dxC = ring.x - mx, dyC = ring.y - my;
+        const distC = Math.sqrt(dxC * dxC + dyC * dyC);
+        let fx = 0, fy = 0;
+        if (distC < REPEL_DIST && distC > 0) {
+          const strength = (1 - distC / REPEL_DIST) * REPEL_FORCE;
+          fx = (dxC / distC) * strength;
+          fy = (dyC / distC) * strength;
         }
 
-        // Dampen to prevent runaway speed
-        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-        if (speed > 1.8) { p.vx *= 1.8 / speed; p.vy *= 1.8 / speed; }
+        // Spring back + dampen
+        ring.ox = (ring.ox + fx - ring.ox * SPRING) * DAMPEN;
+        ring.oy = (ring.oy + fy - ring.oy * SPRING) * DAMPEN;
 
-        p.x += p.vx;
-        p.y += p.vy;
+        // Pulse radius
+        const pulse = 1 + 0.35 * Math.sin(t * ring.speed + ring.phase);
+        // Repulsion near cursor also inflates radius
+        const repelR = distC < REPEL_DIST ? (1 - distC / REPEL_DIST) * 6 : 0;
+        ring.r = ring.baseR * pulse + repelR;
 
-        // Wrap edges
-        if (p.x < -10) p.x = W + 10;
-        if (p.x > W + 10) p.x = -10;
-        if (p.y < -10) p.y = H + 10;
-        if (p.y > H + 10) p.y = -10;
+        const drawX = ring.x + ring.ox;
+        const drawY = ring.y + ring.oy;
 
-        // Draw dot
         ctx!.beginPath();
-        ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx!.fillStyle = colors.dot;
-        ctx!.fill();
-
-        // Draw connection lines
-        for (let j = i + 1; j < particles.length; j++) {
-          const q = particles[j];
-          const lx = p.x - q.x, ly = p.y - q.y;
-          const d = Math.sqrt(lx * lx + ly * ly);
-          if (d < CONNECT_DIST) {
-            const alpha = (1 - d / CONNECT_DIST) * 0.6;
-            ctx!.beginPath();
-            ctx!.moveTo(p.x, p.y);
-            ctx!.lineTo(q.x, q.y);
-            // Blend alpha into the base line color
-            const base = isLight ? `rgba(37,99,235,` : `rgba(34,211,238,`;
-            ctx!.strokeStyle = base + (alpha * 0.18) + ")";
-            ctx!.lineWidth = 0.7;
-            ctx!.stroke();
-          }
-        }
+        ctx!.arc(drawX, drawY, Math.max(0.5, ring.r), 0, Math.PI * 2);
+        const color = ring.isGreen ? GREEN : VIOLET;
+        ctx!.strokeStyle = color + ring.alpha + ")";
+        ctx!.lineWidth = 0.8 + ring.alpha * 0.6;
+        ctx!.stroke();
       }
 
-      rafId = requestAnimationFrame(draw);
+      rafId = requestAnimationFrame(frame);
     }
 
     function onMouse(e: MouseEvent) { mx = e.clientX; my = e.clientY; }
     function onLeave()              { mx = -9999; my = -9999; }
-
-    // Watch theme changes
-    const mo = new MutationObserver(() => {
-      isLight = document.documentElement.classList.contains("light");
-    });
-    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
 
     const ro = new ResizeObserver(resize);
     ro.observe(document.documentElement);
     resize();
 
     if (!reduced) {
-      document.addEventListener("mousemove", onMouse, { passive: true });
-      document.addEventListener("mouseleave", onLeave);
-      draw();
+      window.addEventListener("mousemove", onMouse, { passive: true });
+      window.addEventListener("mouseleave", onLeave);
+      frame();
     } else {
-      // Static single frame for reduced-motion
-      draw();
+      // Single static frame only
+      t = 1;
+      frame();
       cancelAnimationFrame(rafId);
     }
 
     return () => {
       cancelAnimationFrame(rafId);
       ro.disconnect();
-      mo.disconnect();
-      document.removeEventListener("mousemove", onMouse);
-      document.removeEventListener("mouseleave", onLeave);
+      window.removeEventListener("mousemove", onMouse);
+      window.removeEventListener("mouseleave", onLeave);
     };
   }, []);
 

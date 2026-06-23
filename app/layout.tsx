@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#07070a",
+  themeColor: "#f4f6fb",
 };
 
 export default function RootLayout({
@@ -49,7 +49,7 @@ export default function RootLayout({
         {/* No-FOUC: apply stored theme before first paint. Dark is the default. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}}catch(e){}`,
+            __html: `try{var _t=localStorage.getItem('theme');if(_t==='dark'){document.documentElement.classList.remove('light')}else{document.documentElement.classList.add('light')}}catch(e){document.documentElement.classList.add('light')}`,
           }}
         />
         <div className="bg-grid" aria-hidden />

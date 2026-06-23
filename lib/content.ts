@@ -22,17 +22,17 @@ export const impactStats = [
 
 export const aboutCards = [
   {
-    icon: "⚙️",
+    icon: "🏗️",
     title: "Platform migrations",
     body: "Moved a cloud-native lakehouse to ClickHouse and 300GB from DocumentDB to Aurora Postgres — structured, zero-downtime, no cost increase.",
   },
   {
-    icon: "📉",
+    icon: "💸",
     title: "Cost engineering",
     body: "Consolidated databases and re-architected the medallion lakehouse to drive 35–40% cost reductions across production and lower environments.",
   },
   {
-    icon: "📡",
+    icon: "⚡",
     title: "Real-time & reliability",
     body: "Built real-time monitoring dashboards with automated alerting for proactive issue detection and higher data reliability.",
   },
@@ -93,7 +93,7 @@ export const experience: Experience[] = [
 
 export const skills = [
   {
-    icon: "🧮",
+    icon: "🗄️",
     title: "Data Processing & Platforms",
     items: ["Spark", "SQL", "Python", "ClickHouse", "Hudi", "Iceberg"],
   },
@@ -106,12 +106,12 @@ export const skills = [
     ],
   },
   {
-    icon: "🪄",
+    icon: "🔀",
     title: "Orchestration & Transformation",
     items: ["Airflow (MWAA)", "Dagster", "dbt"],
   },
   {
-    icon: "🛠️",
+    icon: "🧰",
     title: "DevOps & Tools",
     items: ["Docker", "Jenkins", "Git", "Kubernetes"],
   },
@@ -144,12 +144,12 @@ export const education = {
 
 export const interests = [
   {
-    icon: "📈",
+    icon: "📊",
     title: "FinTech & Markets",
     body: "Constantly reading about market microstructure, DeFi protocols, and the infrastructure behind trading systems. It's where data engineering and finance collide.",
   },
   {
-    icon: "🏊",
+    icon: "🌊",
     title: "Swimming",
     body: "Early morning laps are my reset button — the one place with no notifications, no context switching, just splits and breathing.",
   },
@@ -159,7 +159,7 @@ export const interests = [
     body: "Obsessed with the endgame. I study openings way more than I should and still blunder in the middlegame.",
   },
   {
-    icon: "🎮",
+    icon: "🕹️",
     title: "Gaming",
     body: "Anything from strategy sims to co-op shooters. I'm that person streaming to an empty channel while convincing myself it's content.",
   },
