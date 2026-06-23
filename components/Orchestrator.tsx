@@ -61,11 +61,11 @@ export default function Orchestrator() {
         </div>
 
         {/* pipeline */}
-        <div className="mb-5 flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-black/20 px-4 py-4">
+        <div className="mb-5 flex items-start justify-between rounded-2xl border border-[var(--color-border)] bg-black/20 px-4 py-4">
           <Node badge="S3" label="Ingest" tone="blue" />
-          <div className="flow-line mx-1 h-0.5 flex-1" />
+          <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
           <Node badge="⚡" label="Spark / EMR" tone="cyan" />
-          <div className="flow-line mx-1 h-0.5 flex-1" />
+          <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
           <Node badge="CH" label="ClickHouse" tone="emerald" />
         </div>
 
@@ -89,8 +89,8 @@ export default function Orchestrator() {
             <div className="text-[0.65rem] uppercase tracking-wider text-[var(--color-muted)]">
               Cost saved
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold text-white">
-              40<span className="text-cyan-300">%</span>
+            <div className="mt-1 font-mono text-2xl font-bold">
+              <span className="grad-text">40%</span>
             </div>
             <div className="mt-0.5 text-[0.7rem] text-emerald-400">
               ▼ Aurora spend

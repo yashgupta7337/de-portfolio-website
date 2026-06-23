@@ -29,7 +29,7 @@
   --surface-2: rgba(0, 0, 0, 0.22);
   --color-border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.2);
-  --nav-surface: rgba(9, 10, 14, 0.55);
+  --nav-surface: rgba(9, 10, 14, 0.38);
 
   --fg-soft: rgba(245, 247, 250, 0.82);
   --fg-mute: rgba(245, 247, 250, 0.62);
@@ -37,7 +37,7 @@
 
   --on-accent: #04121a;
   --accent-text: #22d3ee;
-  --grad: linear-gradient(100deg, #3b82f6, #22d3ee 45%, #10b981);
+  --grad: linear-gradient(100deg, #3b82f6 0%, #22d3ee 16.67%, #10b981 33.33%, #3b82f6 50%, #22d3ee 66.67%, #10b981 83.33%, #3b82f6 100%);
 
   --grid-line: rgba(255, 255, 255, 0.035);
   --noise-opacity: 0.04;
@@ -63,7 +63,7 @@ html.light {
   --surface-2: rgba(12, 18, 32, 0.045);
   --color-border: rgba(12, 18, 32, 0.1);
   --border-strong: rgba(12, 18, 32, 0.16);
-  --nav-surface: rgba(255, 255, 255, 0.6);
+  --nav-surface: rgba(255, 255, 255, 0.42);
 
   --fg-soft: rgba(11, 18, 32, 0.84);
   --fg-mute: rgba(11, 18, 32, 0.62);
@@ -71,7 +71,7 @@ html.light {
 
   --on-accent: #04121a;
   --accent-text: #0e7490;
-  --grad: linear-gradient(100deg, #2563eb, #0891b2 45%, #059669);
+  --grad: linear-gradient(100deg, #2563eb 0%, #0891b2 16.67%, #059669 33.33%, #2563eb 50%, #0891b2 66.67%, #059669 83.33%, #2563eb 100%);
 
   --grid-line: rgba(12, 18, 32, 0.05);
   --noise-opacity: 0.022;
@@ -99,7 +99,7 @@ html.light {
   --fg-mute: rgba(245, 247, 250, 0.62);
   --fg-dim: rgba(245, 247, 250, 0.42);
   --accent-text: #22d3ee;
-  --grad: linear-gradient(100deg, #3b82f6, #22d3ee 45%, #10b981);
+  --grad: linear-gradient(100deg, #3b82f6 0%, #22d3ee 16.67%, #10b981 33.33%, #3b82f6 50%, #22d3ee 66.67%, #10b981 83.33%, #3b82f6 100%);
   background-color: #0b0d13;
   color: var(--color-fg);
 }
@@ -224,11 +224,18 @@ body {
 /* ============================================================
    Reusable utilities
    ============================================================ */
+@keyframes grad-shift {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
 .grad-text {
   background: var(--grad);
+  background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: grad-shift 5s linear infinite;
 }
 
 .glass {
@@ -243,8 +250,8 @@ body {
 .nav-glass {
   background: var(--nav-surface);
   border: 1px solid var(--color-border);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 

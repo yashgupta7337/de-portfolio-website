@@ -6,6 +6,7 @@ export const profile = {
   phone: "+91 99901 81300",
   phoneHref: "+919990181300",
   linkedin: "https://www.linkedin.com/in/yashgupta7337",
+  github: "https://github.com/yashgupta7337",
   resume: "YashGupta_Resume.pdf",
   summary:
     "I independently own and scale data platforms in fast-paced, lean environments — leading critical migrations and architectural shifts that cut query latency by 90%+ and infrastructure cost by 35–40%. I specialize in cost-efficient, reliable pipelines and real-time systems.",
@@ -130,6 +131,7 @@ export const projects = [
     tags: ["Python", "NST", "GANs", "Deep Learning"],
     flow: ["style", "content", "design"],
     kind: "gan" as const,
+    github: "https://github.com/yashgupta7337/Fashion-NST-GAN",
   },
 ];
 
@@ -140,10 +142,39 @@ export const education = {
   date: "Aug 2020 — May 2024",
 };
 
+export const interests = [
+  {
+    icon: "📈",
+    title: "FinTech & Markets",
+    body: "Constantly reading about market microstructure, DeFi protocols, and the infrastructure behind trading systems. It's where data engineering and finance collide.",
+  },
+  {
+    icon: "🏊",
+    title: "Swimming",
+    body: "Early morning laps are my reset button — the one place with no notifications, no context switching, just splits and breathing.",
+  },
+  {
+    icon: "♟️",
+    title: "Chess",
+    body: "Obsessed with the endgame. I study openings way more than I should and still blunder in the middlegame.",
+  },
+  {
+    icon: "🎮",
+    title: "Gaming",
+    body: "Anything from strategy sims to co-op shooters. I'm that person streaming to an empty channel while convincing myself it's content.",
+  },
+  {
+    icon: "🎧",
+    title: "Discord, basically my OS",
+    body: "From voice channels with friends to streaming sessions, Spotify listening parties, and a personal server I use as a second brain for notes, bookmarks, and random ideas.",
+  },
+];
+
 export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#skills", label: "Stack" },
   { href: "#projects", label: "Projects" },
+  { href: "#interests", label: "Interests" },
   { href: "#contact", label: "Contact" },
 ];
