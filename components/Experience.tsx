@@ -32,11 +32,22 @@ export default function Experience() {
                   <div className="glass glass-hover rounded-3xl p-6 md:p-7">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="flex items-center gap-3.5">
-                        <span
-                          className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl border bg-gradient-to-br font-mono text-sm font-extrabold ${monogramAccent[e.accent]}`}
-                        >
-                          {e.monogram}
-                        </span>
+                        {e.logo ? (
+                          <span className="grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-2xl border border-[var(--color-border)] bg-white p-1.5 shadow-sm">
+                            <img
+                              src={e.logo}
+                              alt={e.company}
+                              loading="lazy"
+                              className="h-full w-full object-contain"
+                            />
+                          </span>
+                        ) : (
+                          <span
+                            className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl border bg-gradient-to-br font-mono text-sm font-extrabold ${monogramAccent[e.accent]}`}
+                          >
+                            {e.monogram}
+                          </span>
+                        )}
                         <div>
                           <h3 className="text-xl font-bold">{e.role}</h3>
                           <span className="grad-text text-base font-semibold">

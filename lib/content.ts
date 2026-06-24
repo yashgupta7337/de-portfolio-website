@@ -74,6 +74,7 @@ export type Experience = {
   role: string;
   company: string;
   monogram: string;
+  logo?: string;
   accent: "emerald" | "violet" | "blue";
   blurb: string;
   location: string;
@@ -87,6 +88,7 @@ export const experience: Experience[] = [
     role: "Data Engineer I",
     company: "Connect and Heal",
     monogram: "C&H",
+    logo: "/logos/cnh.png",
     accent: "emerald",
     blurb:
       "Healthcare technology company focused on digital solutions to improve patient engagement and management.",
@@ -110,6 +112,7 @@ export const experience: Experience[] = [
     role: "Software Engineer Intern",
     company: "MagicPin",
     monogram: "MP",
+    logo: "/logos/magicpin.png",
     accent: "violet",
     blurb:
       "A tech startup focused on enhancing retail & shopping experiences through data-driven insights.",
@@ -129,6 +132,7 @@ export const experience: Experience[] = [
     role: "Summer Research Intern",
     company: "National University of Singapore",
     monogram: "NUS",
+    logo: "/logos/nus.png",
     accent: "blue",
     blurb:
       "A leading research university specializing in innovation and advanced technology.",
@@ -260,6 +264,7 @@ export const education = {
   school: "Shiv Nadar University",
   location: "India",
   date: "Aug 2020 — May 2024",
+  logo: "/logos/snu.png",
 };
 
 export const interests = [

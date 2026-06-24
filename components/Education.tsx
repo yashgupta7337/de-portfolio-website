@@ -9,8 +9,13 @@ export default function Education() {
         <SectionHead kicker="06 — Education" title="Where it started." />
         <Reveal>
           <div className="glass glass-hover flex flex-wrap items-center gap-5 rounded-3xl p-6 md:p-7">
-            <span className="grid h-14 w-14 place-items-center rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] text-2xl">
-              🎓
+            <span className="grid h-14 shrink-0 place-items-center rounded-2xl border border-[var(--color-border)] bg-white px-4 shadow-sm">
+              <img
+                src={education.logo}
+                alt={education.school}
+                loading="lazy"
+                className="h-8 w-auto object-contain"
+              />
             </span>
             <div className="flex-1">
               <h3 className="text-lg font-bold">{education.degree}</h3>
