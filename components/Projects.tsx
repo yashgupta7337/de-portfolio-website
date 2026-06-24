@@ -4,13 +4,18 @@ import Reveal from "./Reveal";
 
 function PipelineVisual({ flow }: { flow: string[] }) {
   return (
-    <div className="panel-dark flex h-36 flex-wrap items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10 px-3">
+    <div className="panel-dark flex min-h-[11rem] flex-col items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10 px-3 py-4 sm:h-36 sm:min-h-0 sm:flex-row sm:flex-wrap sm:py-0">
       {flow.map((node, i) => (
-        <div key={node} className="flex items-center gap-1.5">
+        <div key={node} className="flex flex-col items-center gap-1.5 sm:flex-row">
           <span className="rounded-lg border border-cyan-300/30 bg-black/30 px-2.5 py-1.5 font-mono text-[0.65rem] text-cyan-100 backdrop-blur">
             {node}
           </span>
-          {i < flow.length - 1 && <span className="flow-line h-0.5 w-5" />}
+          {i < flow.length - 1 && (
+            <>
+              <span className="flow-line-v h-4 w-0.5 sm:hidden" />
+              <span className="flow-line hidden h-0.5 w-5 sm:block" />
+            </>
+          )}
         </div>
       ))}
     </div>
