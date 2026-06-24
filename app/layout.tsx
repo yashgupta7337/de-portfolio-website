@@ -49,7 +49,7 @@ export default function RootLayout({
         {/* No-FOUC: apply stored theme before first paint. Dark is the default. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}}catch(e){}try{history.scrollRestoration='manual'}catch(e){}`,
+            __html: `try{if(localStorage.getItem('theme')==='light'){document.documentElement.classList.add('light')}}catch(e){}try{history.scrollRestoration='manual';var t=function(){try{scrollTo(0,0)}catch(e){}};addEventListener('beforeunload',t);addEventListener('pagehide',t)}catch(e){}`,
           }}
         />
         <div className="bg-grid" aria-hidden />
