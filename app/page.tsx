@@ -1,4 +1,5 @@
 import Nav from "@/components/Nav";
+import ScrollRail from "@/components/ScrollRail";
 import Hero from "@/components/Hero";
 import ImpactStats from "@/components/ImpactStats";
 import About from "@/components/About";
@@ -17,6 +18,7 @@ export default function Home() {
   return (
     <>
       <Nav />
+      <ScrollRail />
       <main>
         <Hero />
         <ImpactStats />

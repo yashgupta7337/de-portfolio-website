@@ -1,8 +1,24 @@
+"use client";
+
+import { useState } from "react";
 import { profile } from "@/lib/content";
 import Reveal from "./Reveal";
 import { ResumeButton } from "./ResumeViewer";
 
 export default function Contact() {
+  const [copied, setCopied] = useState(false);
+  const gmail = `https://mail.google.com/mail/?view=cm&fs=1&to=${profile.email}`;
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1600);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
+
   return (
     <section id="contact" className="section">
       <div className="container-x">
@@ -20,25 +36,38 @@ export default function Contact() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href={`mailto:${profile.email}`}
+              <button
+                type="button"
+                onClick={copyEmail}
+                aria-label={`Copy email address ${profile.email}`}
                 className="inline-flex min-w-0 max-w-full items-center gap-2 break-all rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-sm font-semibold text-[var(--on-accent)] shadow-[0_12px_36px_-10px_rgba(34,211,238,0.6)] transition hover:brightness-110"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
-                  <path
-                    d="M3 7l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-                {profile.email}
-              </a>
+                {copied ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                    <path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                    <path d="M3 7l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+                {copied ? "Copied to clipboard" : profile.email}
+              </button>
               <ResumeButton className="rounded-xl border border-[var(--color-border)] px-6 py-3.5 text-sm font-semibold text-[var(--fg-soft)] transition hover:border-cyan-400/50 hover:bg-[var(--surface-1)]">
                 View resume
               </ResumeButton>
             </div>
+
+            <p className="mt-3 text-xs text-[var(--color-muted)]">
+              Tap to copy · or compose in{" "}
+              <a href={gmail} target="_blank" rel="noopener" className="font-medium text-cyan-300 underline-offset-2 hover:underline">
+                Gmail
+              </a>
+              {" · "}
+              <a href={`mailto:${profile.email}`} className="font-medium text-cyan-300 underline-offset-2 hover:underline">
+                Mail app
+              </a>
+            </p>
 
             <div className="mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-[var(--color-muted)]">
               <a

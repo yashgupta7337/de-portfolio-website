@@ -218,6 +218,18 @@ export default function Playground() {
   });
   const pipelineWarnings = result.warnings.filter((w) => w.scope === "pipeline");
 
+  // Plain-English summary of what the pipeline currently produces.
+  const freq = String(stages.find((s) => s.type === "resample")?.cfg.freq || "daily");
+  const unit =
+    freq === "monthly" ? "monthly bars" : freq === "weekly" ? "weekly bars" : "daily bars";
+  const readout = !hasRows
+    ? "Your filters removed every row — loosen the Filter or raise Top-N to see data."
+    : `Showing ${symbol}'s ${
+        result.mode === "returns" ? "day-over-day % change" : "closing price"
+      } across ${rows.length} ${unit}${
+        result.overlay ? ` with a ${result.overlay.label} trend line` : ""
+      }. The SQL tab is the exact query that produces it.`;
+
   // Empty result → neutral em-dashes rather than a misleading green $0 / 0%.
   const kpis = [
     { label: "rows", value: rows.length.toString() },
@@ -380,6 +392,17 @@ export default function Playground() {
 
       {/* ───── output ───── */}
       <div className="glass flex flex-col rounded-3xl p-4 sm:p-5">
+        {/* plain-english readout */}
+        <div className="mb-4 flex items-start gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/5 px-3 py-2 text-xs leading-relaxed text-[var(--color-muted)]">
+          <span aria-hidden>👁️</span>
+          <span>
+            <span className="font-semibold text-[var(--color-fg)]">
+              What you&apos;re seeing —{" "}
+            </span>
+            {readout}
+          </span>
+        </div>
+
         {/* kpis */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {kpis.map((k) => (
