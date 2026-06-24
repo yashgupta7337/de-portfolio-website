@@ -127,7 +127,7 @@ export default function Nav() {
           open ? "mt-2 max-h-[28rem]" : "max-h-0"
         }`}
       >
-        <nav className="glass flex flex-col rounded-2xl p-2">
+        <nav className="nav-glass flex flex-col rounded-2xl p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl">
           {navLinks.map((l) => (
             <a
               key={l.href}

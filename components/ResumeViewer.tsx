@@ -63,11 +63,11 @@ export default function ResumeViewer() {
         onClick={(e) => e.stopPropagation()}
         className="glass flex h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]"
       >
-        <div className="flex items-center justify-between gap-3 border-b border-[var(--color-border)] px-5 py-3.5">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 border-b border-[var(--color-border)] px-5 py-3.5">
           <h2 className="text-sm font-semibold tracking-tight text-[var(--color-fg)]">
             Resume
           </h2>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <a
               href={url}
               target="_blank"

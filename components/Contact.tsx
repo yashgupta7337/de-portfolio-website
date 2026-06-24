@@ -22,9 +22,9 @@ export default function Contact() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a
                 href={`mailto:${profile.email}`}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-sm font-semibold text-[var(--on-accent)] shadow-[0_12px_36px_-10px_rgba(34,211,238,0.6)] transition hover:brightness-110"
+                className="inline-flex min-w-0 max-w-full items-center gap-2 break-all rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-sm font-semibold text-[var(--on-accent)] shadow-[0_12px_36px_-10px_rgba(34,211,238,0.6)] transition hover:brightness-110"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="shrink-0">
                   <path
                     d="M3 7l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"
                     stroke="currentColor"

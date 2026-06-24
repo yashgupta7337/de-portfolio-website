@@ -28,7 +28,7 @@ function Node({
       "from-emerald-500/30 to-emerald-500/5 text-emerald-100 border-emerald-400/30",
   }[tone];
   return (
-    <div className="flex flex-col items-center gap-1.5">
+    <div className="flex shrink-0 flex-col items-center gap-1.5">
       {logo ? (
         <div className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-900/5 bg-[#f8fafc] p-2 shadow-sm">
           <img
@@ -44,7 +44,9 @@ function Node({
           {badge}
         </div>
       )}
-      <span className="text-[0.65rem] text-[var(--color-muted)]">{label}</span>
+      <span className="max-w-[4.5rem] text-center text-[0.65rem] leading-tight text-[var(--color-muted)]">
+        {label}
+      </span>
     </div>
   );
 }
@@ -59,7 +61,7 @@ export default function Orchestrator() {
         initial={{ opacity: 0, y: 24, rotateX: 8 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-        className="panel-dark glass w-full rounded-[1.75rem] p-5 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]"
+        className="panel-dark glass w-full rounded-[1.75rem] p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:p-5"
       >
         {/* header */}
         <div className="mb-5 flex items-center justify-between">
@@ -73,7 +75,7 @@ export default function Orchestrator() {
         </div>
 
         {/* pipeline */}
-        <div className="mb-5 flex items-start justify-between rounded-2xl border border-[var(--color-border)] bg-black/20 px-4 py-4">
+        <div className="mb-5 flex items-start justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/20 px-3 py-4 sm:px-4">
           <Node logo="s3" label="Ingest" tone="blue" />
           <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
           <Node logo="spark" label="Spark on EMR" tone="cyan" />

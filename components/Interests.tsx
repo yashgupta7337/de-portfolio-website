@@ -14,11 +14,11 @@ export default function Interests() {
         <div className="grid gap-3 sm:grid-cols-2">
           {interests.map((item, i) => (
             <Reveal key={item.title} delay={i * 0.06}>
-              <div className="glass glass-hover flex items-center gap-3 rounded-2xl px-4 py-3.5">
+              <div className="glass glass-hover flex items-start gap-3 rounded-2xl px-4 py-3.5">
                 <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] text-lg">
                   {item.icon}
                 </span>
-                <p className="min-w-0 truncate text-sm">
+                <p className="min-w-0 text-sm">
                   <span className="font-semibold text-[var(--color-fg)]">
                     {item.title}
                   </span>
