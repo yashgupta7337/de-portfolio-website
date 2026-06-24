@@ -4,7 +4,7 @@ import Reveal from "./Reveal";
 
 function PipelineVisual({ flow }: { flow: string[] }) {
   return (
-    <div className="panel-dark flex h-36 items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10 px-3">
+    <div className="panel-dark flex h-36 flex-wrap items-center justify-center gap-1.5 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-400/10 px-3">
       {flow.map((node, i) => (
         <div key={node} className="flex items-center gap-1.5">
           <span className="rounded-lg border border-cyan-300/30 bg-black/30 px-2.5 py-1.5 font-mono text-[0.65rem] text-cyan-100 backdrop-blur">
@@ -19,7 +19,7 @@ function PipelineVisual({ flow }: { flow: string[] }) {
 
 function GanVisual({ flow }: { flow: string[] }) {
   return (
-    <div className="panel-dark flex h-36 items-center justify-center gap-2 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-violet-500/10 via-transparent to-emerald-400/10 px-3 font-mono text-[0.7rem]">
+    <div className="panel-dark flex h-36 flex-wrap items-center justify-center gap-2 overflow-hidden rounded-2xl border border-[var(--color-border)] bg-gradient-to-br from-violet-500/10 via-transparent to-emerald-400/10 px-3 font-mono text-[0.7rem]">
       <span className="rounded-lg border border-violet-300/30 bg-black/30 px-2.5 py-1.5 text-violet-200">
         {flow[0]}
       </span>

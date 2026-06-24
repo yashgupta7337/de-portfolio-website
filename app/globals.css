@@ -116,12 +116,21 @@ html {
   scroll-padding-top: 6rem;
 }
 
+/* Definitive horizontal-overflow guard.
+   `clip` (not `hidden`) does NOT create a scroll container, so it never
+   forces `overflow-y: auto` nor breaks `position: sticky` /
+   `scroll-behavior: smooth`. Applied to both html and body so stray
+   overflow can't escape via the viewport scroll container. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background-color: var(--color-ink);
   color: var(--color-fg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 

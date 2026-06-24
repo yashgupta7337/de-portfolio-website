@@ -1,5 +1,6 @@
 import { profile } from "@/lib/content";
 import Reveal from "./Reveal";
+import { ResumeButton } from "./ResumeViewer";
 
 export default function Contact() {
   return (
@@ -34,13 +35,9 @@ export default function Contact() {
                 </svg>
                 {profile.email}
               </a>
-              <a
-                href={profile.resume}
-                download
-                className="rounded-xl border border-[var(--color-border)] px-6 py-3.5 text-sm font-semibold text-[var(--fg-soft)] transition hover:border-cyan-400/50 hover:bg-[var(--surface-1)]"
-              >
-                Download resume
-              </a>
+              <ResumeButton className="rounded-xl border border-[var(--color-border)] px-6 py-3.5 text-sm font-semibold text-[var(--fg-soft)] transition hover:border-cyan-400/50 hover:bg-[var(--surface-1)]">
+                View resume
+              </ResumeButton>
             </div>
 
             <div className="mt-7 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm text-[var(--color-muted)]">

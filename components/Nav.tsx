@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { profile, navLinks } from "@/lib/content";
 import ThemeToggle from "./ThemeToggle";
+import { ResumeButton } from "./ResumeViewer";
 
 function LinkedInIcon() {
   return (
@@ -85,13 +86,9 @@ export default function Nav() {
             <GitHubIcon />
           </a>
           <ThemeToggle />
-          <a
-            href={profile.resume}
-            download
-            className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-[var(--fg-soft)] transition hover:border-cyan-400/50 hover:bg-[var(--surface-1)]"
-          >
+          <ResumeButton className="rounded-xl border border-[var(--color-border)] px-4 py-2 text-sm font-medium text-[var(--fg-soft)] transition hover:border-cyan-400/50 hover:bg-[var(--surface-1)]">
             Resume
-          </a>
+          </ResumeButton>
           <a
             href="#contact"
             className="rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-[var(--on-accent)] shadow-[0_8px_24px_-8px_rgba(34,211,238,0.6)] transition hover:brightness-110"
@@ -161,13 +158,9 @@ export default function Nav() {
               <GitHubIcon />
             </a>
             <ThemeToggle className="!h-11 !w-11 shrink-0" />
-            <a
-              href={profile.resume}
-              download
-              className="flex-1 rounded-xl border border-[var(--color-border)] px-4 py-2.5 text-center text-sm font-medium"
-            >
+            <ResumeButton className="flex-1 rounded-xl border border-[var(--color-border)] px-4 py-2.5 text-center text-sm font-medium">
               Resume
-            </a>
+            </ResumeButton>
             <a
               href="#contact"
               onClick={() => setOpen(false)}

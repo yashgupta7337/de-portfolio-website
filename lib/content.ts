@@ -140,7 +140,7 @@ export const skills = [
       { name: "Docker", logo: "docker" },
       { name: "Jenkins", logo: "jenkins" },
       { name: "Git", logo: "git" },
-      { name: "Kubernetes", logo: "kubernetes" },
+      { name: "Claude", logo: "claude" },
     ],
   },
 ];

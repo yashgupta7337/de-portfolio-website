@@ -34,7 +34,7 @@ export default function Skills() {
                       </div>
                       <span
                         aria-hidden="true"
-                        className="pointer-events-none absolute -top-9 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--color-fg)] px-2.5 py-1 text-xs font-medium text-[var(--color-ink)] opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
+                        className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 max-w-[8rem] -translate-x-1/2 whitespace-normal break-words rounded-lg bg-[var(--color-fg)] px-2.5 py-1 text-center text-xs font-medium leading-tight text-[var(--color-ink)] opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
                       >
                         {it.name}
                       </span>

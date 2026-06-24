@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import ResumeViewer from "@/components/ResumeViewer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,6 +60,7 @@ export default function RootLayout({
         </div>
         <div className="bg-noise" aria-hidden />
         {children}
+        <ResumeViewer />
       </body>
     </html>
   );
