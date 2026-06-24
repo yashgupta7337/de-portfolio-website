@@ -7,7 +7,7 @@ export default function Upcoming() {
     <section id="upcoming" className="section pt-0">
       <div className="container-x">
         <SectionHead
-          kicker="07 — What's next"
+          kicker="10 — What's next"
           title={
             <>
               More is <span className="grad-text">on the way</span>.

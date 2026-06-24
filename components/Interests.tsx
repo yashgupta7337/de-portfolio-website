@@ -7,7 +7,7 @@ export default function Interests() {
     <section id="interests" className="section">
       <div className="container-x">
         <SectionHead
-          kicker="06 — Beyond the terminal"
+          kicker="08 — Beyond the terminal"
           title="What I do when I'm not building pipelines."
         />
 

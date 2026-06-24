@@ -3,6 +3,8 @@ import Hero from "@/components/Hero";
 import ImpactStats from "@/components/ImpactStats";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
+import CaseStudies from "@/components/CaseStudies";
+import Medallion from "@/components/Medallion";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
 import Interests from "@/components/Interests";
@@ -20,6 +22,8 @@ export default function Home() {
         <ImpactStats />
         <About />
         <Experience />
+        <CaseStudies />
+        <Medallion />
         <Skills />
         <Education />
         <Projects />

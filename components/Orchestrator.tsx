@@ -10,6 +10,25 @@ const logs = [
   { kind: "run", text: "dbt run · 124 models building…" },
 ];
 
+function Connector({ delay = 0 }: { delay?: number }) {
+  return (
+    <div className="relative mx-1 mt-[23px] h-0.5 flex-1">
+      <div className="flow-line h-full w-full" />
+      <motion.span
+        className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-cyan-300 shadow-[0_0_10px_2px_rgba(34,211,238,0.75)]"
+        animate={{ left: ["-4%", "100%"], opacity: [0, 1, 1, 0] }}
+        transition={{
+          duration: 1.8,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay,
+          times: [0, 0.12, 0.88, 1],
+        }}
+      />
+    </div>
+  );
+}
+
 function Node({
   badge,
   logo,
@@ -77,9 +96,9 @@ export default function Orchestrator() {
         {/* pipeline */}
         <div className="mb-5 flex items-start justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/20 px-3 py-4 sm:px-4">
           <Node logo="s3" label="Ingest" tone="blue" />
-          <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
+          <Connector />
           <Node logo="spark" label="Spark on EMR" tone="cyan" />
-          <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
+          <Connector delay={0.9} />
           <Node logo="clickhouse" label="ClickHouse" tone="emerald" />
         </div>
 

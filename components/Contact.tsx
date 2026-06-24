@@ -10,7 +10,7 @@ export default function Contact() {
           <div className="glass relative overflow-hidden rounded-[2rem] p-8 text-center md:p-14">
             <div className="pointer-events-none absolute -top-24 left-1/2 h-64 w-[28rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.25),transparent_70%)] blur-2xl" />
 
-            <span className="kicker">05 — Contact</span>
+            <span className="kicker">09 — Contact</span>
             <h2 className="mx-auto mt-3 max-w-2xl text-[clamp(1.9rem,4.5vw,3rem)] font-extrabold leading-tight tracking-tight">
               Let&apos;s build something <span className="grad-text">reliable</span>.
             </h2>

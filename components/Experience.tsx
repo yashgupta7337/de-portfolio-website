@@ -3,6 +3,12 @@ import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
 import ExperiencePoints from "./ExperiencePoints";
 
+const monogramAccent = {
+  emerald: "from-emerald-500/20 to-emerald-500/5 border-emerald-400/30 text-emerald-200",
+  violet: "from-violet-500/20 to-violet-500/5 border-violet-400/30 text-violet-200",
+  blue: "from-blue-500/20 to-blue-500/5 border-blue-400/30 text-blue-200",
+} as const;
+
 export default function Experience() {
   return (
     <section id="experience" className="section">
@@ -24,11 +30,18 @@ export default function Experience() {
 
                   <div className="glass glass-hover rounded-3xl p-6 md:p-7">
                     <div className="flex flex-wrap items-start justify-between gap-3">
-                      <div>
-                        <h3 className="text-xl font-bold">{e.role}</h3>
-                        <span className="grad-text text-base font-semibold">
-                          {e.company}
+                      <div className="flex items-center gap-3.5">
+                        <span
+                          className={`grid h-12 w-12 shrink-0 place-items-center rounded-2xl border bg-gradient-to-br font-mono text-sm font-extrabold ${monogramAccent[e.accent]}`}
+                        >
+                          {e.monogram}
                         </span>
+                        <div>
+                          <h3 className="text-xl font-bold">{e.role}</h3>
+                          <span className="grad-text text-base font-semibold">
+                            {e.company}
+                          </span>
+                        </div>
                       </div>
                       <div className="text-right text-sm">
                         <div className="text-[var(--fg-mute)]">{e.location}</div>

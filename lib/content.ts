@@ -14,10 +14,42 @@ export const profile = {
 };
 
 export const impactStats = [
-  { value: 90, suffix: "%+", label: "Query latency reduced" },
-  { value: 40, suffix: "%", label: "AWS Aurora cost cut" },
-  { value: 300, suffix: "GB", label: "Migrated, zero downtime" },
-  { value: 35, suffix: "%", label: "Lakehouse cost reduction" },
+  {
+    value: 90,
+    suffix: "%+",
+    label: "Query latency reduced",
+    from: "60s",
+    to: "5s",
+    before: 1,
+    after: 0.1,
+  },
+  {
+    value: 40,
+    suffix: "%",
+    label: "AWS Aurora cost cut",
+    from: "100%",
+    to: "60%",
+    before: 1,
+    after: 0.6,
+  },
+  {
+    value: 300,
+    suffix: "GB",
+    label: "Migrated, zero downtime",
+    from: "0",
+    to: "300GB",
+    before: 0.04,
+    after: 1,
+  },
+  {
+    value: 35,
+    suffix: "%",
+    label: "Lakehouse cost reduction",
+    from: "100%",
+    to: "65%",
+    before: 1,
+    after: 0.65,
+  },
 ];
 
 export const aboutCards = [
@@ -41,6 +73,8 @@ export const aboutCards = [
 export type Experience = {
   role: string;
   company: string;
+  monogram: string;
+  accent: "emerald" | "violet" | "blue";
   blurb: string;
   location: string;
   date: string;
@@ -51,6 +85,8 @@ export const experience: Experience[] = [
   {
     role: "Data Engineer I",
     company: "Connect and Heal",
+    monogram: "C&H",
+    accent: "emerald",
     blurb:
       "Healthcare technology company focused on digital solutions to improve patient engagement and management.",
     location: "Bangalore, India",
@@ -67,6 +103,8 @@ export const experience: Experience[] = [
   {
     role: "Software Engineer Intern",
     company: "MagicPin",
+    monogram: "MP",
+    accent: "violet",
     blurb:
       "A tech startup focused on enhancing retail & shopping experiences through data-driven insights.",
     location: "Gurugram, India",
@@ -80,6 +118,8 @@ export const experience: Experience[] = [
   {
     role: "Summer Research Intern",
     company: "National University of Singapore",
+    monogram: "NUS",
+    accent: "blue",
     blurb:
       "A leading research university specializing in innovation and advanced technology.",
     location: "Singapore",
@@ -95,6 +135,7 @@ export const skills = [
   {
     icon: "🧮",
     title: "Data Processing & Platforms",
+    use: "Modeling warehouses and crunching billions of rows.",
     items: [
       { name: "Spark", logo: "spark" },
       { name: "SQL", logo: "sql" },
@@ -107,6 +148,7 @@ export const skills = [
   {
     icon: "☁️",
     title: "Cloud & Storage",
+    use: "The AWS backbone every pipeline runs on.",
     items: [
       { name: "S3", logo: "s3" },
       { name: "EMR", logo: "emr" },
@@ -127,6 +169,7 @@ export const skills = [
   {
     icon: "🪄",
     title: "Orchestration & Transformation",
+    use: "Scheduling, lineage, and clean transforms.",
     items: [
       { name: "Airflow (MWAA)", logo: "airflow" },
       { name: "Dagster", logo: "dagster" },
@@ -136,12 +179,49 @@ export const skills = [
   {
     icon: "🛠️",
     title: "DevOps & Tools",
+    use: "Shipping, automating, and pairing with AI.",
     items: [
       { name: "Docker", logo: "docker" },
       { name: "Jenkins", logo: "jenkins" },
       { name: "Git", logo: "git" },
       { name: "Claude", logo: "claude" },
     ],
+  },
+];
+
+export const caseStudies = [
+  {
+    tag: "Platform migration",
+    accent: "cyan" as const,
+    title: "Cloud lakehouse → ClickHouse",
+    problem:
+      "Analytical queries were taking 60+ seconds, throttling dashboards and every downstream consumer.",
+    approach:
+      "Re-modeled the warehouse on ClickHouse — table engines, sort keys and materialized rollups tuned for the access patterns that actually mattered.",
+    metric: { from: "60s", to: "5s", label: "avg query SLA", delta: "12× faster" },
+    stack: ["ClickHouse", "Spark", "EMR", "S3"],
+  },
+  {
+    tag: "Zero-downtime migration",
+    accent: "emerald" as const,
+    title: "300GB DocumentDB → Aurora",
+    problem:
+      "Unstructured documents in DocumentDB blocked relational analytics and carried rising cost.",
+    approach:
+      "Modeled the documents into a relational schema and moved 300GB via DMS with CDC — a live cutover with no downtime and no cost increase.",
+    metric: { from: "NoSQL", to: "SQL", label: "300GB migrated", delta: "0 downtime" },
+    stack: ["DMS", "Aurora", "DocumentDB", "Python"],
+  },
+  {
+    tag: "Cost engineering",
+    accent: "violet" as const,
+    title: "Medallion lakehouse re-architecture",
+    problem:
+      "Aurora and lakehouse spend was climbing across production and lower environments.",
+    approach:
+      "Consolidated databases and re-architected the bronze → silver → gold lakehouse with S3, Glue, Hudi, Spark & MWAA.",
+    metric: { from: "100%", to: "60%", label: "infra spend", delta: "−35–40%" },
+    stack: ["Hudi", "Glue", "Airflow", "S3"],
   },
 ];
 
@@ -225,9 +305,9 @@ export const upcoming = [
 export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
+  { href: "#work", label: "Work" },
+  { href: "#architecture", label: "Architecture" },
   { href: "#skills", label: "Stack" },
-  { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
-  { href: "#interests", label: "Interests" },
   { href: "#contact", label: "Contact" },
 ];
