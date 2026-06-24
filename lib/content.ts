@@ -202,6 +202,17 @@ export const skills = [
       { name: "Claude", logo: "claude" },
     ],
   },
+  {
+    icon: "🧪",
+    title: "Explored · PoC",
+    use: "Evaluated in proofs-of-concept and spikes.",
+    items: [
+      { name: "Redshift", logo: "redshift" },
+      { name: "RisingWave", logo: "risingwave" },
+      { name: "OLake", logo: "olake.png" },
+      { name: "PeerDB", logo: "peerdb.png" },
+    ],
+  },
 ];
 
 export const caseStudies = [
