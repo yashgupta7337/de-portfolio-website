@@ -1,14 +1,21 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-const bars = [90, 62, 78, 45, 84, 70, 96, 58];
+const initialBars = [90, 62, 78, 45, 84, 70, 96, 58];
 
-const logs = [
+const logPool = [
   { kind: "ok", text: "medallion · bronze → silver → gold synced" },
   { kind: "ok", text: "300GB DocumentDB → Aurora · 0 downtime" },
   { kind: "run", text: "dbt run · 124 models building…" },
-];
+  { kind: "ok", text: "hudi compaction · partition 2026-06 ✓" },
+  { kind: "ok", text: "ClickHouse merge · 18 parts → 3" },
+  { kind: "run", text: "spark on EMR · stage 4/7 · 2.1GB shuffled" },
+  { kind: "ok", text: "glue crawler · schema drift: none" },
+  { kind: "ok", text: "airflow · daily_ingest ✓ in 4m12s" },
+  { kind: "run", text: "dms cdc · 12k changes replicated" },
+] as const;
 
 function Connector({ delay = 0 }: { delay?: number }) {
   return (
@@ -71,6 +78,47 @@ function Node({
 }
 
 export default function Orchestrator() {
+  const [time, setTime] = useState("");
+  const [bars, setBars] = useState<number[]>(initialBars);
+  const [rows, setRows] = useState("1.24");
+  const [feed, setFeed] = useState<{ kind: string; text: string }[]>(
+    logPool.slice(0, 3) as unknown as { kind: string; text: string }[]
+  );
+  const cursor = useRef(3);
+
+  useEffect(() => {
+    const tick = () =>
+      setTime(new Date().toLocaleTimeString("en-US", { hour12: false }));
+    tick();
+    const clock = setInterval(tick, 1000);
+
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    if (reduce) return () => clearInterval(clock);
+
+    const chart = setInterval(
+      () => setBars((b) => b.map(() => Math.round(38 + Math.random() * 60))),
+      1900
+    );
+    const tp = setInterval(
+      () => setRows((1 + Math.random() * 0.7).toFixed(2)),
+      1300
+    );
+    const log = setInterval(() => {
+      const next = logPool[cursor.current % logPool.length];
+      cursor.current += 1;
+      setFeed((f) => [next as { kind: string; text: string }, ...f].slice(0, 3));
+    }, 2600);
+
+    return () => {
+      clearInterval(clock);
+      clearInterval(chart);
+      clearInterval(tp);
+      clearInterval(log);
+    };
+  }, []);
+
   return (
     <div className="relative">
       {/* glow behind */}
@@ -83,13 +131,13 @@ export default function Orchestrator() {
         className="panel-dark glass w-full rounded-[1.75rem] p-4 shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)] sm:p-5"
       >
         {/* header */}
-        <div className="mb-5 flex items-center justify-between">
-          <div className="flex items-center gap-2.5 font-mono text-sm font-semibold">
-            <span className="live-dot" />
-            Data Platform Orchestrator
+        <div className="mb-5 flex items-center justify-between gap-2">
+          <div className="flex min-w-0 items-center gap-2.5 font-mono text-sm font-semibold">
+            <span className="live-dot shrink-0" />
+            <span className="truncate">Data Platform Orchestrator</span>
           </div>
-          <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-1 text-[0.65rem] font-medium text-emerald-300">
-            All systems healthy
+          <span className="shrink-0 font-mono text-[0.7rem] tabular-nums text-[var(--color-muted)]">
+            {time || "··:··:··"}
           </span>
         </div>
 
@@ -120,13 +168,13 @@ export default function Orchestrator() {
           </div>
           <div className="rounded-2xl border border-[var(--color-border)] bg-white/[0.03] p-3.5">
             <div className="text-[0.65rem] uppercase tracking-wider text-[var(--color-muted)]">
-              Cost saved
+              Throughput
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold">
-              <span className="grad-text">40%</span>
+            <div className="mt-1 font-mono text-2xl font-bold tabular-nums">
+              <span className="grad-text">{rows}M</span>
             </div>
             <div className="mt-0.5 text-[0.7rem] text-emerald-400">
-              ▼ Aurora spend
+              ▲ rows / sec
             </div>
           </div>
         </div>
@@ -134,8 +182,9 @@ export default function Orchestrator() {
         {/* chart */}
         <div className="mb-4 rounded-2xl border border-[var(--color-border)] bg-black/20 p-3.5">
           <div className="mb-3 flex items-center justify-between text-xs">
-            <span className="text-[var(--color-muted)]">Latency reduction</span>
-            <span className="rounded-full bg-cyan-400/10 px-2 py-0.5 font-mono text-[0.6rem] text-cyan-300">
+            <span className="text-[var(--color-muted)]">Ingest throughput</span>
+            <span className="flex items-center gap-1.5 rounded-full bg-cyan-400/10 px-2 py-0.5 font-mono text-[0.6rem] text-cyan-300">
+              <span className="live-dot !h-1.5 !w-1.5" />
               live
             </span>
           </div>
@@ -143,13 +192,8 @@ export default function Orchestrator() {
             {bars.map((h, i) => (
               <span
                 key={i}
-                className="flex-1 origin-bottom rounded-t-md bg-gradient-to-t from-blue-500/60 to-cyan-300"
-                style={{
-                  height: `${h}%`,
-                  animation: `barpulse ${2.2 + (i % 4) * 0.3}s ease-in-out ${
-                    i * 0.12
-                  }s infinite`,
-                }}
+                className="flex-1 origin-bottom rounded-t-md bg-gradient-to-t from-blue-500/60 to-cyan-300 transition-[height] duration-700 ease-out"
+                style={{ height: `${h}%` }}
               />
             ))}
           </div>
@@ -157,20 +201,20 @@ export default function Orchestrator() {
 
         {/* logs */}
         <div className="space-y-1.5 font-mono text-[0.72rem]">
-          {logs.map((l, i) => (
+          {feed.map((l, i) => (
             <motion.div
-              key={i}
+              key={`${l.text}-${i}`}
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.6 + i * 0.25, duration: 0.5 }}
+              transition={{ duration: 0.4 }}
               className="flex items-center gap-2 text-[var(--color-muted)]"
             >
               <span
-                className={`inline-block h-1.5 w-1.5 rounded-full ${
+                className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
                   l.kind === "ok" ? "bg-emerald-400" : "bg-cyan-400 animate-pulse"
                 }`}
               />
-              {l.text}
+              <span className="truncate">{l.text}</span>
             </motion.div>
           ))}
         </div>

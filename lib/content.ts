@@ -78,6 +78,7 @@ export type Experience = {
   blurb: string;
   location: string;
   date: string;
+  metrics?: { value: number; suffix: string; label: string }[];
   points: string[];
 };
 
@@ -91,6 +92,11 @@ export const experience: Experience[] = [
       "Healthcare technology company focused on digital solutions to improve patient engagement and management.",
     location: "Bangalore, India",
     date: "Jun 2024 — Present",
+    metrics: [
+      { value: 12, suffix: "×", label: "faster queries" },
+      { value: 40, suffix: "%", label: "cost cut" },
+      { value: 300, suffix: "GB", label: "migrated" },
+    ],
     points: [
       "Migrated the data platform from a cloud-native lakehouse to ClickHouse, optimizing warehouse design and cutting query SLA from 60+s to ~5s on average.",
       "Consolidated and migrated databases, reducing AWS Aurora Postgres costs across production and lower environments by 40%.",
@@ -109,6 +115,10 @@ export const experience: Experience[] = [
       "A tech startup focused on enhancing retail & shopping experiences through data-driven insights.",
     location: "Gurugram, India",
     date: "May 2022 — Aug 2022",
+    metrics: [
+      { value: 10, suffix: "%", label: "faster crawl" },
+      { value: 20, suffix: "%", label: "smaller images" },
+    ],
     points: [
       "Enhanced data crawling & parsing to efficiently extract product information from multiple sources — a 10% improvement in speed and performance.",
       "Applied Python web crawling to automate data collection, improving efficiency and scalability by reducing Docker image size by 20%.",
@@ -124,6 +134,7 @@ export const experience: Experience[] = [
       "A leading research university specializing in innovation and advanced technology.",
     location: "Singapore",
     date: "Jun 2022",
+    metrics: [{ value: 2, suffix: "nd", label: "place · innovation" }],
     points: [
       "Improved AI model performance through optimization and experimental evaluation, in collaboration with NUS and Hewlett Packard Enterprise.",
       "Group research project: designed an AI-powered fashion design system using Neural Style Transfer (NST) and Generative Adversarial Networks (GANs).",

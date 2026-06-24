@@ -24,20 +24,53 @@ function GitHubIcon() {
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [active, setActive] = useState("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      const h = document.documentElement;
+      setScrolled(window.scrollY > 24);
+      const max = h.scrollHeight - h.clientHeight;
+      setProgress(max > 0 ? Math.min((h.scrollTop / max) * 100, 100) : 0);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const sections = navLinks
+      .map((l) => document.getElementById(l.href.slice(1)))
+      .filter((el): el is HTMLElement => Boolean(el));
+    if (!sections.length) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled ? "py-2" : "py-4"
-      }`}
-    >
+    <>
+      {/* scroll progress bar */}
+      <div className="fixed inset-x-0 top-0 z-[60] h-[3px]">
+        <div
+          className="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 transition-[width] duration-150 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled ? "py-2" : "py-4"
+        }`}
+      >
       <div
         className={`container-x flex items-center justify-between rounded-2xl transition-all duration-300 ${
           scrolled
@@ -53,15 +86,23 @@ export default function Nav() {
         </a>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="rounded-lg px-3.5 py-2 text-sm text-[var(--color-muted)] transition-colors hover:text-[var(--color-fg)]"
-            >
-              {l.label}
-            </a>
-          ))}
+          {navLinks.map((l) => {
+            const isActive = active === l.href.slice(1);
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                aria-current={isActive ? "true" : undefined}
+                className={`rounded-lg px-3.5 py-2 text-sm transition-colors ${
+                  isActive
+                    ? "bg-[var(--surface-1)] font-medium text-[var(--color-fg)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-fg)]"
+                }`}
+              >
+                {l.label}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-2.5 md:flex">
@@ -128,16 +169,24 @@ export default function Nav() {
         }`}
       >
         <nav className="nav-glass flex flex-col rounded-2xl p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl">
-          {navLinks.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="rounded-xl px-4 py-3 text-sm text-[var(--color-muted)] transition hover:bg-[var(--surface-1)] hover:text-[var(--color-fg)]"
-            >
-              {l.label}
-            </a>
-          ))}
+          {navLinks.map((l) => {
+            const isActive = active === l.href.slice(1);
+            return (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                aria-current={isActive ? "true" : undefined}
+                className={`rounded-xl px-4 py-3 text-sm transition hover:bg-[var(--surface-1)] hover:text-[var(--color-fg)] ${
+                  isActive
+                    ? "bg-[var(--surface-1)] font-medium text-[var(--color-fg)]"
+                    : "text-[var(--color-muted)]"
+                }`}
+              >
+                {l.label}
+              </a>
+            );
+          })}
           <div className="mt-1 flex items-center gap-2 p-2">
             <a
               href={profile.linkedin}
@@ -171,6 +220,7 @@ export default function Nav() {
           </div>
         </nav>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

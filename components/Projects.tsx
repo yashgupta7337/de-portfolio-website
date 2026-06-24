@@ -1,6 +1,19 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { projects } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
+
+const packetClass =
+  "absolute h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]";
+const packetTransition = (delay: number) => ({
+  duration: 1.6,
+  repeat: Infinity,
+  ease: "easeInOut" as const,
+  delay,
+  times: [0, 0.15, 0.85, 1],
+});
 
 function PipelineVisual({ flow }: { flow: string[] }) {
   return (
@@ -12,8 +25,24 @@ function PipelineVisual({ flow }: { flow: string[] }) {
           </span>
           {i < flow.length - 1 && (
             <>
-              <span className="flow-line-v h-4 w-0.5 sm:hidden" />
-              <span className="flow-line hidden h-0.5 w-5 sm:block" />
+              {/* vertical connector (mobile) */}
+              <span className="relative flex h-4 w-0.5 sm:hidden">
+                <span className="flow-line-v absolute inset-0" />
+                <motion.span
+                  className={`${packetClass} left-1/2 -translate-x-1/2`}
+                  animate={{ top: ["-25%", "100%"], opacity: [0, 1, 1, 0] }}
+                  transition={packetTransition(i * 0.3)}
+                />
+              </span>
+              {/* horizontal connector (desktop) */}
+              <span className="relative hidden h-0.5 w-5 sm:block">
+                <span className="flow-line absolute inset-0" />
+                <motion.span
+                  className={`${packetClass} top-1/2 -translate-y-1/2`}
+                  animate={{ left: ["-25%", "100%"], opacity: [0, 1, 1, 0] }}
+                  transition={packetTransition(i * 0.3)}
+                />
+              </span>
             </>
           )}
         </div>
@@ -32,7 +61,14 @@ function GanVisual({ flow }: { flow: string[] }) {
       <span className="rounded-lg border border-blue-300/30 bg-black/30 px-2.5 py-1.5 text-blue-200">
         {flow[1]}
       </span>
-      <span className="flow-line h-0.5 w-6" />
+      <span className="relative flex h-0.5 w-6">
+        <span className="flow-line absolute inset-0" />
+        <motion.span
+          className={`${packetClass} top-1/2 -translate-y-1/2`}
+          animate={{ left: ["-25%", "100%"], opacity: [0, 1, 1, 0] }}
+          transition={packetTransition(0.2)}
+        />
+      </span>
       <span className="rounded-lg border border-emerald-300/40 bg-emerald-500/10 px-2.5 py-1.5 font-semibold text-emerald-200">
         {flow[2]}
       </span>

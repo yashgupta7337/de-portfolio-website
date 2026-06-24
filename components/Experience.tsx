@@ -2,6 +2,7 @@ import { experience } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
 import ExperiencePoints from "./ExperiencePoints";
+import Counter from "./Counter";
 
 const monogramAccent = {
   emerald: "from-emerald-500/20 to-emerald-500/5 border-emerald-400/30 text-emerald-200",
@@ -54,6 +55,26 @@ export default function Experience() {
                     <p className="mt-3 text-sm italic text-[var(--color-muted)]">
                       {e.blurb}
                     </p>
+
+                    {e.metrics && (
+                      <div className="mt-4 flex flex-wrap gap-2.5">
+                        {e.metrics.map((m) => (
+                          <span
+                            key={m.label}
+                            className="inline-flex items-baseline gap-1.5 rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] px-3 py-1.5"
+                          >
+                            <Counter
+                              to={m.value}
+                              suffix={m.suffix}
+                              className="grad-text font-mono text-base font-extrabold"
+                            />
+                            <span className="text-xs text-[var(--color-muted)]">
+                              {m.label}
+                            </span>
+                          </span>
+                        ))}
+                      </div>
+                    )}
 
                     <ExperiencePoints points={e.points} />
                   </div>
