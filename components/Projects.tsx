@@ -97,7 +97,7 @@ export default function Projects() {
                 <h3 className="text-lg font-bold">Stock Pipeline Playground</h3>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-emerald-300">
                   <span className="live-dot" />
-                  Live · interactive
+                  Live demo · interactive
                 </span>
               </div>
               <p className="mt-1.5 text-sm text-[var(--color-muted)]">

@@ -114,13 +114,15 @@ export function runPipeline(
     }
   }
 
-  // derived columns computed on the final row set
+  // derived columns computed on the final row set.
+  // MA uses an expanding window for the first (window-1) points so the line
+  // spans the whole chart instead of starting partway in.
   if (maWindow > 1) {
     rows = rows.map((r, i) => {
-      if (i < maWindow - 1) return { ...r, ma: null };
+      const start = Math.max(0, i - maWindow + 1);
       let sum = 0;
-      for (let k = i - maWindow + 1; k <= i; k++) sum += rows[k].close;
-      return { ...r, ma: +(sum / maWindow).toFixed(2) };
+      for (let k = start; k <= i; k++) sum += rows[k].close;
+      return { ...r, ma: +(sum / (i - start + 1)).toFixed(2) };
     });
   }
   rows = rows.map((r, i) => ({

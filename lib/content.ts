@@ -267,7 +267,12 @@ export const education = {
   logo: "/logos/snu.png",
 };
 
-export const interests = [
+export const interests: {
+  icon: string;
+  logo?: string;
+  title: string;
+  body: string;
+}[] = [
   {
     icon: "📈",
     title: "FinTech & Markets",
@@ -280,16 +285,19 @@ export const interests = [
   },
   {
     icon: "♟️",
+    logo: "/logos/chesscom.svg",
     title: "Chess",
     body: "Endgame-obsessed; I over-study openings and still blunder.",
   },
   {
     icon: "🎮",
+    logo: "/logos/steam.svg",
     title: "Gaming",
     body: "Strategy sims to co-op shooters, streamed to nobody.",
   },
   {
     icon: "🎧",
+    logo: "/logos/discord.svg",
     title: "Discord, basically my OS",
     body: "Voice channels, listening parties, and a second-brain server.",
   },

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 const W = 600;
 const H = 260;
@@ -17,6 +17,7 @@ type Props = {
 };
 
 export default function Chart({ x, primary, overlay, mode, accent, runKey }: Props) {
+  const reduce = useReducedMotion();
   const n = primary.length;
   if (n < 2) {
     return (
@@ -112,18 +113,40 @@ export default function Chart({ x, primary, overlay, mode, accent, runKey }: Pro
             transition={{ duration: 1.1, ease: "easeInOut" }}
           />
           {overlay && (
-            <motion.path
-              key={`o-${runKey}`}
-              d={overlayPath}
-              fill="none"
-              stroke="#f5f7fa"
-              strokeOpacity="0.65"
-              strokeWidth="1.6"
-              strokeDasharray="4 4"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 1.1, delay: 0.25, ease: "easeInOut" }}
-            />
+            <>
+              <motion.path
+                id="pg-ma-path"
+                key={`o-${runKey}`}
+                d={overlayPath}
+                fill="none"
+                stroke="#f5f7fa"
+                strokeOpacity="0.65"
+                strokeWidth="1.6"
+                strokeDasharray="4 4"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 1.1, delay: 0.25, ease: "easeInOut" }}
+              />
+              {/* data packets travelling along the moving-average curve */}
+              {!reduce &&
+                [0, 0.9, 1.8].map((begin, k) => (
+                  <circle
+                    key={`mp-${runKey}-${k}`}
+                    r="2.3"
+                    fill="#f87171"
+                    style={{ filter: "drop-shadow(0 0 3px rgba(248,113,113,0.9))" }}
+                  >
+                    <animateMotion
+                      dur="2.7s"
+                      begin={`${begin}s`}
+                      repeatCount="indefinite"
+                      rotate="auto"
+                    >
+                      <mpath xlinkHref="#pg-ma-path" />
+                    </animateMotion>
+                  </circle>
+                ))}
+            </>
           )}
           <motion.circle
             key={`d-${runKey}`}
