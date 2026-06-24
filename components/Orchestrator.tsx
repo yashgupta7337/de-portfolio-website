@@ -143,7 +143,7 @@ export default function Orchestrator() {
 
         {/* pipeline */}
         <div className="mb-5 flex items-start justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/20 px-3 py-4 sm:px-4">
-          <Node logo="postgres" label="Postgres" tone="blue" />
+          <Node logo="postgres.png" label="Postgres" tone="blue" />
           <Connector />
           <Node logo="peerdb.png" label="PeerDB · CDC" tone="cyan" />
           <Connector delay={0.9} />
