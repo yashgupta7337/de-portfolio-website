@@ -29,8 +29,7 @@ export default function PlaygroundPage() {
       <p className="mt-4 max-w-2xl text-pretty text-[var(--color-muted)]">
         Drag blocks to build a data pipeline over sample market data, reorder the
         stages, and hit run — everything executes client-side and the equivalent
-        SQL is generated live. No server, no backend; just a static page doing
-        real data work.
+        SQL is generated live.
       </p>
 
       <div className="mt-10">
@@ -38,7 +37,7 @@ export default function PlaygroundPage() {
       </div>
 
       <p className="mt-10 text-center text-xs text-[var(--color-muted)]">
-        Sample data is synthetic. Built with Next.js + Framer Motion — fully static.
+        Sample data is synthetic. Built with Next.js + Framer Motion.
       </p>
     </main>
   );
