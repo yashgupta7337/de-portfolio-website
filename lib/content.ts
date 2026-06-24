@@ -286,6 +286,7 @@ export const interests: {
 }[] = [
   {
     icon: "📈",
+    logo: "/logos/sp500.svg",
     title: "FinTech & Markets",
     body: "Market microstructure and trading infrastructure.",
   },
