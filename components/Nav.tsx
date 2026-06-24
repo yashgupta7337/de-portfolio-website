@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { profile, navLinks } from "@/lib/content";
 import ThemeToggle from "./ThemeToggle";
 import { ResumeButton } from "./ResumeViewer";
@@ -25,6 +26,14 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+
+  // Continuous, GPU-accelerated scroll progress (transform scaleX, spring-smoothed)
+  const { scrollYProgress } = useScroll();
+  const progressX = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 30,
+    mass: 0.3,
+  });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -52,6 +61,13 @@ export default function Nav() {
 
   return (
     <>
+      {/* scroll progress bar */}
+      <motion.div
+        className="fixed inset-x-0 top-0 z-[60] h-[3px] origin-left bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400"
+        style={{ scaleX: progressX }}
+        aria-hidden
+      />
+
       <header
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
           scrolled ? "py-2" : "py-4"

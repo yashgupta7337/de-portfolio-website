@@ -1,3 +1,13 @@
+"use client";
+
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { experience } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
@@ -10,24 +20,70 @@ const monogramAccent = {
   blue: "from-blue-500/20 to-blue-500/5 border-blue-400/30 text-blue-200",
 } as const;
 
+const markerBase =
+  "absolute left-0 top-2 grid h-4 w-4 place-items-center rounded-full border-2 border-cyan-300 bg-[var(--color-ink)] md:h-[18px] md:w-[18px]";
+
+function Marker({ reduce }: { reduce: boolean }) {
+  if (reduce) {
+    return (
+      <span className={markerBase}>
+        <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
+      </span>
+    );
+  }
+  return (
+    <motion.span
+      className={markerBase}
+      initial={{ scale: 1, boxShadow: "0 0 0 0 rgba(34,211,238,0)" }}
+      whileInView={{
+        scale: [1, 1.5, 1],
+        boxShadow: [
+          "0 0 0 0 rgba(34,211,238,0)",
+          "0 0 22px 8px rgba(34,211,238,0.85)",
+          "0 0 9px 2px rgba(34,211,238,0.3)",
+        ],
+      }}
+      viewport={{ margin: "-45% 0px -45% 0px", once: false }}
+      transition={{ duration: 0.9, ease: "easeOut" }}
+    >
+      <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
+    </motion.span>
+  );
+}
+
 export default function Experience() {
+  const reduce = useReducedMotion() ?? false;
+  const railRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: railRef,
+    offset: ["start 75%", "end 55%"],
+  });
+  const smooth = useSpring(scrollYProgress, { stiffness: 90, damping: 26, mass: 0.4 });
+  const cometTop = useTransform(smooth, [0, 1], ["1%", "99%"]);
+
   return (
     <section id="experience" className="section">
       <div className="container-x">
         <SectionHead kicker="02 — Experience" title="Where I've shipped." />
 
-        <div className="relative">
+        <div ref={railRef} className="relative">
           {/* vertical line */}
           <div className="absolute bottom-2 left-[7px] top-2 w-px bg-gradient-to-b from-blue-500/60 via-cyan-400/40 to-transparent md:left-[9px]" />
+
+          {/* scroll-linked comet riding the rail */}
+          {!reduce && (
+            <motion.span
+              aria-hidden
+              style={{ top: cometTop }}
+              className="pointer-events-none absolute left-[7px] z-20 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100 shadow-[0_0_16px_6px_rgba(34,211,238,0.7)] md:left-[9px]"
+            />
+          )}
 
           <div className="space-y-7">
             {experience.map((e, i) => (
               <Reveal key={e.company} delay={i * 0.08}>
                 <div className="relative pl-9 md:pl-12">
-                  {/* marker */}
-                  <span className="absolute left-0 top-2 grid h-4 w-4 place-items-center rounded-full border-2 border-cyan-300 bg-[var(--color-ink)] md:h-[18px] md:w-[18px]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
-                  </span>
+                  <Marker reduce={reduce} />
 
                   <div className="glass glass-hover rounded-3xl p-6 md:p-7">
                     <div className="flex flex-wrap items-start justify-between gap-3">
