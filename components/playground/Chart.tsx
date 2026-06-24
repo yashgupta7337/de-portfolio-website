@@ -119,9 +119,9 @@ export default function Chart({ x, primary, overlay, mode, accent, runKey }: Pro
                 key={`o-${runKey}`}
                 d={overlayPath}
                 fill="none"
-                stroke="#f5f7fa"
-                strokeOpacity="0.65"
-                strokeWidth="1.6"
+                stroke="#f87171"
+                strokeOpacity="0.85"
+                strokeWidth="1.8"
                 strokeDasharray="4 4"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -132,9 +132,9 @@ export default function Chart({ x, primary, overlay, mode, accent, runKey }: Pro
                 [0, 0.9, 1.8].map((begin, k) => (
                   <circle
                     key={`mp-${runKey}-${k}`}
-                    r="2.3"
-                    fill="#f87171"
-                    style={{ filter: "drop-shadow(0 0 3px rgba(248,113,113,0.9))" }}
+                    r="2.4"
+                    fill="#fee2e2"
+                    style={{ filter: "drop-shadow(0 0 4px rgba(239,68,68,0.95))" }}
                   >
                     <animateMotion
                       dur="2.7s"

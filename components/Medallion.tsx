@@ -5,6 +5,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
 
+const packetClass =
+  "absolute h-1.5 w-1.5 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]";
+const packetTransition = (delay: number) => ({
+  duration: 1.6,
+  repeat: Infinity,
+  ease: "easeInOut" as const,
+  delay,
+  times: [0, 0.15, 0.85, 1],
+});
+
 type Layer = {
   key: string;
   name: string;
@@ -100,8 +110,24 @@ export default function Medallion() {
                   </button>
                   {i < layers.length - 1 && (
                     <>
-                      <span className="flow-line-v h-4 w-0.5 sm:hidden" />
-                      <span className="flow-line hidden h-0.5 w-6 shrink-0 sm:block" />
+                      {/* mobile vertical connector */}
+                      <span className="relative flex h-4 w-0.5 shrink-0 sm:hidden">
+                        <span className="flow-line-v absolute inset-0" />
+                        <motion.span
+                          className={`${packetClass} left-1/2 -translate-x-1/2`}
+                          animate={{ top: ["-25%", "100%"], opacity: [0, 1, 1, 0] }}
+                          transition={packetTransition(i * 0.45)}
+                        />
+                      </span>
+                      {/* desktop horizontal connector */}
+                      <span className="relative hidden h-0.5 w-6 shrink-0 sm:block">
+                        <span className="flow-line absolute inset-0" />
+                        <motion.span
+                          className={`${packetClass} top-1/2 -translate-y-1/2`}
+                          animate={{ left: ["-25%", "100%"], opacity: [0, 1, 1, 0] }}
+                          transition={packetTransition(i * 0.45)}
+                        />
+                      </span>
                     </>
                   )}
                 </div>
