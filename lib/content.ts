@@ -199,6 +199,29 @@ export const interests = [
   },
 ];
 
+export const upcoming = [
+  {
+    icon: "✍️",
+    title: "Blog & writing",
+    body: "Deep dives on ClickHouse tuning, cost engineering, and zero-downtime lakehouse migrations.",
+  },
+  {
+    icon: "🔍",
+    title: "Project case studies",
+    body: "Architecture diagrams, the trade-offs I weighed, and the metrics behind each build.",
+  },
+  {
+    icon: "🧪",
+    title: "Experiments & PoCs",
+    body: "Field notes from RisingWave, Dagster, dbt & Olake — streaming and orchestration evaluations.",
+  },
+  {
+    icon: "📊",
+    title: "Live demos",
+    body: "Interactive walkthroughs of real-time monitoring and data-quality pipelines.",
+  },
+];
+
 export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },

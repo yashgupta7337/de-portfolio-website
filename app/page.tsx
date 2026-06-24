@@ -8,6 +8,7 @@ import Projects from "@/components/Projects";
 import Interests from "@/components/Interests";
 import Education from "@/components/Education";
 import Contact from "@/components/Contact";
+import Upcoming from "@/components/Upcoming";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
         <Projects />
         <Interests />
         <Contact />
+        <Upcoming />
       </main>
       <Footer />
     </>
