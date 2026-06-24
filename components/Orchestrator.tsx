@@ -58,7 +58,7 @@ function Node({
       {logo ? (
         <div className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-900/5 bg-[#f8fafc] p-2 shadow-sm">
           <img
-            src={`/logos/${logo}.svg`}
+            src={logo.includes(".") ? `/logos/${logo}` : `/logos/${logo}.svg`}
             alt={label}
             className="h-full w-full object-contain"
           />
@@ -143,9 +143,9 @@ export default function Orchestrator() {
 
         {/* pipeline */}
         <div className="mb-5 flex items-start justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-black/20 px-3 py-4 sm:px-4">
-          <Node logo="s3" label="Ingest" tone="blue" />
+          <Node logo="postgres" label="Postgres" tone="blue" />
           <Connector />
-          <Node logo="spark" label="Spark on EMR" tone="cyan" />
+          <Node logo="peerdb.png" label="PeerDB · CDC" tone="cyan" />
           <Connector delay={0.9} />
           <Node logo="clickhouse" label="ClickHouse" tone="emerald" />
         </div>
