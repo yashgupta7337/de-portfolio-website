@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { projects } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
@@ -81,6 +82,34 @@ export default function Projects() {
     <section id="projects" className="section">
       <div className="container-x">
         <SectionHead kicker="07 — Projects" title="Things I've built for fun." />
+
+        <Reveal className="mb-5">
+          <Link
+            href="/playground"
+            className="glass glass-hover group relative flex items-center gap-4 overflow-hidden rounded-3xl p-5 sm:p-6"
+          >
+            <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.18),transparent_70%)] blur-2xl" />
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl border border-cyan-300/30 bg-cyan-400/10 text-2xl">
+              🎛️
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-lg font-bold">Stock Pipeline Playground</h3>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-emerald-300">
+                  <span className="live-dot" />
+                  Live · interactive
+                </span>
+              </div>
+              <p className="mt-1.5 text-sm text-[var(--color-muted)]">
+                Drag blocks to build a data pipeline and run it in your browser —
+                with live charts and auto-generated SQL.
+              </p>
+            </div>
+            <span className="shrink-0 text-cyan-300 transition-transform group-hover:translate-x-1">
+              →
+            </span>
+          </Link>
+        </Reveal>
 
         <div className="grid gap-5 md:grid-cols-2">
           {projects.map((p, i) => (
