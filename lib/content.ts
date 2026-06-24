@@ -284,6 +284,12 @@ export const interests: {
     body: "Early-morning laps — my no-notifications reset button.",
   },
   {
+    icon: "⚽",
+    logo: "/logos/premierleague.svg",
+    title: "Football",
+    body: "A fresh Premier League convert — still picking my club.",
+  },
+  {
     icon: "♟️",
     logo: "/logos/chesscom.svg",
     title: "Chess",
