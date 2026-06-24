@@ -1,6 +1,7 @@
 import { experience } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
+import ExperiencePoints from "./ExperiencePoints";
 
 export default function Experience() {
   return (
@@ -41,17 +42,7 @@ export default function Experience() {
                       {e.blurb}
                     </p>
 
-                    <ul className="mt-4 space-y-2.5">
-                      {e.points.map((p, j) => (
-                        <li
-                          key={j}
-                          className="flex gap-3 text-sm leading-relaxed text-[var(--fg-soft)]"
-                        >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-blue-400 to-emerald-400" />
-                          <span>{p}</span>
-                        </li>
-                      ))}
-                    </ul>
+                    <ExperiencePoints points={e.points} />
                   </div>
                 </div>
               </Reveal>

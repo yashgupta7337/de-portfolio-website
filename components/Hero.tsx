@@ -4,7 +4,13 @@ import { motion } from "framer-motion";
 import { profile } from "@/lib/content";
 import Orchestrator from "./Orchestrator";
 
-const pills = ["ClickHouse", "Spark", "Airflow", "AWS", "dbt"];
+const pills = [
+  { name: "ClickHouse", logo: "clickhouse" },
+  { name: "Spark", logo: "spark" },
+  { name: "Airflow", logo: "airflow" },
+  { name: "AWS", logo: "aws" },
+  { name: "dbt", logo: "dbt" },
+];
 
 const fade = {
   hidden: { opacity: 0, y: 24 },
@@ -42,7 +48,7 @@ export default function Hero() {
             animate="show"
             className="mt-5 text-balance text-[clamp(2.4rem,6vw,4.25rem)] font-extrabold leading-[1.04] tracking-tight"
           >
-            I build data platforms that are{" "}
+            Building data platforms that are{" "}
             <span className="grad-text">fast, reliable &amp; cheap</span> to run.
           </motion.h1>
 
@@ -104,10 +110,16 @@ export default function Hero() {
             </span>
             {pills.map((p) => (
               <span
-                key={p}
-                className="rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-3 py-1.5 font-mono text-xs text-[var(--fg-soft)]"
+                key={p.name}
+                title={p.name}
+                className="grid h-10 w-10 place-items-center rounded-xl border border-slate-900/5 bg-[#f8fafc] p-1.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md"
               >
-                {p}
+                <img
+                  src={`/logos/${p.logo}.svg`}
+                  alt={p.name}
+                  loading="lazy"
+                  className="h-full w-full object-contain"
+                />
               </span>
             ))}
           </motion.div>

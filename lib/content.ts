@@ -95,25 +95,53 @@ export const skills = [
   {
     icon: "🧮",
     title: "Data Processing & Platforms",
-    items: ["Spark", "SQL", "Python", "ClickHouse", "Hudi", "Iceberg"],
+    items: [
+      { name: "Spark", logo: "spark" },
+      { name: "SQL", logo: "sql" },
+      { name: "Python", logo: "python" },
+      { name: "ClickHouse", logo: "clickhouse" },
+      { name: "Hudi", logo: "hudi" },
+      { name: "Iceberg", logo: "iceberg" },
+    ],
   },
   {
     icon: "☁️",
     title: "Cloud & Storage",
     items: [
-      "S3", "EMR", "Glue", "Lambda", "RDS", "DynamoDB", "Athena",
-      "DMS", "IAM", "EC2", "ECS", "ECR", "DocumentDB", "Aurora Postgres",
+      { name: "S3", logo: "s3" },
+      { name: "EMR", logo: "emr" },
+      { name: "Glue", logo: "glue" },
+      { name: "Lambda", logo: "lambda" },
+      { name: "RDS", logo: "rds" },
+      { name: "DynamoDB", logo: "dynamodb" },
+      { name: "Athena", logo: "athena" },
+      { name: "DMS", logo: "dms" },
+      { name: "IAM", logo: "iam" },
+      { name: "EC2", logo: "ec2" },
+      { name: "ECS", logo: "ecs" },
+      { name: "ECR", logo: "ecr" },
+      { name: "DocumentDB", logo: "documentdb" },
+      { name: "Aurora Postgres", logo: "aurora" },
     ],
   },
   {
     icon: "🪄",
     title: "Orchestration & Transformation",
-    items: ["Airflow (MWAA)", "Dagster", "dbt"],
+    items: [
+      { name: "Airflow (MWAA)", logo: "airflow" },
+      { name: "Dagster", logo: "dagster" },
+      { name: "dbt", logo: "dbt" },
+    ],
   },
   {
     icon: "🛠️",
     title: "DevOps & Tools",
-    items: ["Docker", "Jenkins", "Git", "Kubernetes"],
+    items: [
+      { name: "Docker", logo: "docker" },
+      { name: "Jenkins", logo: "jenkins" },
+      { name: "Git", logo: "git" },
+      { name: "Kubernetes", logo: "kubernetes" },
+    ],
   },
 ];
 
@@ -124,6 +152,7 @@ export const projects = [
     tags: ["Airflow", "Docker", "Spark", "MinIO", "PostgreSQL", "Metabase"],
     flow: ["Airflow", "Spark", "MinIO", "Metabase"],
     kind: "pipeline" as const,
+    github: "https://github.com/yashgupta7337/stock_market_airflow",
   },
   {
     title: "AI-Generated Fashion Design",
@@ -146,27 +175,27 @@ export const interests = [
   {
     icon: "📈",
     title: "FinTech & Markets",
-    body: "Constantly reading about market microstructure, DeFi protocols, and the infrastructure behind trading systems. It's where data engineering and finance collide.",
+    body: "Market microstructure and trading infrastructure.",
   },
   {
     icon: "🏊",
     title: "Swimming",
-    body: "Early morning laps are my reset button — the one place with no notifications, no context switching, just splits and breathing.",
+    body: "Early-morning laps — my no-notifications reset button.",
   },
   {
     icon: "♟️",
     title: "Chess",
-    body: "Obsessed with the endgame. I study openings way more than I should and still blunder in the middlegame.",
+    body: "Endgame-obsessed; I over-study openings and still blunder.",
   },
   {
     icon: "🎮",
     title: "Gaming",
-    body: "Anything from strategy sims to co-op shooters. I'm that person streaming to an empty channel while convincing myself it's content.",
+    body: "Strategy sims to co-op shooters, streamed to nobody.",
   },
   {
     icon: "🎧",
     title: "Discord, basically my OS",
-    body: "From voice channels with friends to streaming sessions, Spotify listening parties, and a personal server I use as a second brain for notes, bookmarks, and random ideas.",
+    body: "Voice channels, listening parties, and a second-brain server.",
   },
 ];
 
@@ -174,6 +203,7 @@ export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#skills", label: "Stack" },
+  { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
   { href: "#interests", label: "Interests" },
   { href: "#contact", label: "Contact" },

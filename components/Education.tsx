@@ -1,10 +1,12 @@
 import { education } from "@/lib/content";
+import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
 
 export default function Education() {
   return (
-    <section id="education" className="section !pt-0">
+    <section id="education" className="section">
       <div className="container-x">
+        <SectionHead kicker="04 — Education" title="Where it started." />
         <Reveal>
           <div className="glass glass-hover flex flex-wrap items-center gap-5 rounded-3xl p-6 md:p-7">
             <span className="grid h-14 w-14 place-items-center rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] text-2xl">

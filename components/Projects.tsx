@@ -39,7 +39,7 @@ export default function Projects() {
   return (
     <section id="projects" className="section">
       <div className="container-x">
-        <SectionHead kicker="04 — Projects" title="Things I've built for fun." />
+        <SectionHead kicker="05 — Projects" title="Things I've built for fun." />
 
         <div className="grid gap-5 md:grid-cols-2">
           {projects.map((p, i) => (

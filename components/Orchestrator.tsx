@@ -12,10 +12,12 @@ const logs = [
 
 function Node({
   badge,
+  logo,
   label,
   tone,
 }: {
-  badge: string;
+  badge?: string;
+  logo?: string;
   label: string;
   tone: "blue" | "cyan" | "emerald";
 }) {
@@ -27,11 +29,21 @@ function Node({
   }[tone];
   return (
     <div className="flex flex-col items-center gap-1.5">
-      <div
-        className={`grid h-12 w-12 place-items-center rounded-2xl border bg-gradient-to-br ${tones} font-mono text-sm font-bold backdrop-blur`}
-      >
-        {badge}
-      </div>
+      {logo ? (
+        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-900/5 bg-[#f8fafc] p-2 shadow-sm">
+          <img
+            src={`/logos/${logo}.svg`}
+            alt={label}
+            className="h-full w-full object-contain"
+          />
+        </div>
+      ) : (
+        <div
+          className={`grid h-12 w-12 place-items-center rounded-2xl border bg-gradient-to-br ${tones} font-mono text-sm font-bold backdrop-blur`}
+        >
+          {badge}
+        </div>
+      )}
       <span className="text-[0.65rem] text-[var(--color-muted)]">{label}</span>
     </div>
   );
@@ -62,11 +74,11 @@ export default function Orchestrator() {
 
         {/* pipeline */}
         <div className="mb-5 flex items-start justify-between rounded-2xl border border-[var(--color-border)] bg-black/20 px-4 py-4">
-          <Node badge="S3" label="Ingest" tone="blue" />
+          <Node logo="s3" label="Ingest" tone="blue" />
           <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
-          <Node badge="⚡" label="Spark / EMR" tone="cyan" />
+          <Node logo="spark" label="Spark on EMR" tone="cyan" />
           <div className="flow-line mx-1 mt-[23px] h-0.5 flex-1" />
-          <Node badge="CH" label="ClickHouse" tone="emerald" />
+          <Node logo="clickhouse" label="ClickHouse" tone="emerald" />
         </div>
 
         {/* stat tiles */}
