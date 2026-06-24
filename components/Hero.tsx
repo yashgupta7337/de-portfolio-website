@@ -70,7 +70,7 @@ export default function Hero() {
             className="mt-8 flex flex-wrap items-center gap-3"
           >
             <a
-              href="#projects"
+              href="#experience"
               className="group inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-400 px-6 py-3.5 text-sm font-semibold text-[var(--on-accent)] shadow-[0_12px_36px_-10px_rgba(34,211,238,0.6)] transition hover:brightness-110"
             >
               View my work
