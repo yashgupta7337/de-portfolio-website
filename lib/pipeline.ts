@@ -10,6 +10,13 @@ export type Stage = {
 
 export type Row = Bar & { ma?: number | null; ret?: number | null };
 
+export type Warning = {
+  scope: "stage" | "pipeline";
+  stageId?: string;
+  level: "warn" | "info";
+  message: string;
+};
+
 export type PipelineResult = {
   rows: Row[];
   x: string[];
@@ -17,7 +24,88 @@ export type PipelineResult = {
   overlay: { label: string; values: (number | null)[] } | null;
   mode: "price" | "returns";
   sql: string;
+  warnings: Warning[];
 };
+
+/**
+ * Validation layer — single source of truth for what the pipeline considers
+ * redundant / shadowed / empty. Pure function of the stage list + the computed
+ * result, so the UI never re-derives this logic.
+ */
+function computeWarnings(
+  stages: Stage[],
+  rowCount: number,
+  returnsOn: boolean
+): Warning[] {
+  const w: Warning[] = [];
+  const of = (t: StageType) => stages.filter((s) => s.type === t);
+  const stageWarn = (stageId: string, message: string) =>
+    w.push({ scope: "stage", stageId, level: "warn", message });
+
+  const maStages = of("ma");
+  if (returnsOn && maStages.length) {
+    maStages.forEach((s) =>
+      stageWarn(s.id, "Moving average is hidden while Daily returns is active.")
+    );
+  } else if (maStages.length > 1) {
+    // only the last MA window is plotted
+    maStages
+      .slice(0, -1)
+      .forEach((s) =>
+        stageWarn(s.id, "Only one moving average is plotted — this block is ignored.")
+      );
+  }
+
+  const filters = of("filter");
+  if (filters.length > 1) {
+    const strictest = filters.reduce((a, b) =>
+      Number(b.cfg.min) > Number(a.cfg.min) ? b : a
+    );
+    filters
+      .filter((s) => s.id !== strictest.id)
+      .forEach((s) =>
+        stageWarn(s.id, "Redundant filter — a stricter volume threshold already applies.")
+      );
+  }
+
+  of("resample")
+    .slice(1)
+    .forEach((s) =>
+      stageWarn(s.id, "Resampling twice compounds — consider removing one.")
+    );
+
+  of("returns")
+    .slice(1)
+    .forEach((s) => stageWarn(s.id, "Daily returns is already applied."));
+
+  const tops = of("topn");
+  if (tops.length > 1) {
+    const smallest = tops.reduce((a, b) =>
+      Number(b.cfg.n) < Number(a.cfg.n) ? b : a
+    );
+    tops
+      .filter((s) => s.id !== smallest.id)
+      .forEach((s) =>
+        stageWarn(s.id, "Redundant Top-N — a smaller limit already applies.")
+      );
+  }
+
+  if (rowCount === 0) {
+    w.push({
+      scope: "pipeline",
+      level: "warn",
+      message: "This pipeline returned 0 rows — loosen the Filter or raise Top-N.",
+    });
+  } else if (rowCount === 1) {
+    w.push({
+      scope: "pipeline",
+      level: "info",
+      message: "Only 1 row in the result — the chart needs at least 2 points to plot.",
+    });
+  }
+
+  return w;
+}
 
 export const stageDefs: Record<
   StageType,
@@ -140,7 +228,15 @@ export function runPipeline(
       ? { label: `MA${maWindow}`, values: rows.map((r) => r.ma ?? null) }
       : null;
 
-  return { rows, x, primary, overlay, mode, sql: toSQL(stages, symbol) };
+  return {
+    rows,
+    x,
+    primary,
+    overlay,
+    mode,
+    sql: toSQL(stages, symbol),
+    warnings: computeWarnings(stages, rows.length, returnsOn),
+  };
 }
 
 export function toSQL(stages: Stage[], symbol: string): string {
@@ -152,7 +248,7 @@ export function toSQL(stages: Stage[], symbol: string): string {
 
   for (const s of stages) {
     if (s.type === "filter") {
-      where.push(`${s.cfg.field} >= ${Number(s.cfg.min)}`);
+      where.push(`${s.cfg.field} >= ${Number(s.cfg.min) || 0}`);
     } else if (s.type === "ma") {
       selects.push(
         `avg(close) over (\n    order by date rows between ${

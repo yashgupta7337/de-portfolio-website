@@ -33,26 +33,43 @@ function VConnector({ runKey, delay }: { runKey: number; delay: number }) {
   );
 }
 
+const clamp = (n: number, lo: number, hi: number) =>
+  Math.min(hi, Math.max(lo, n));
+
 function StageItem({
   stage,
   index,
   runKey,
+  warning,
   onRemove,
   onCfg,
 }: {
   stage: Stage;
   index: number;
   runKey: number;
+  warning?: string;
   onRemove: (id: string) => void;
   onCfg: (id: string, patch: Record<string, number | string>) => void;
 }) {
   const controls = useDragControls();
   const def = stageDefs[stage.type];
 
+  // Commit finite values only — a transient empty field (NaN) is ignored so
+  // it can never reach state, the SQL view, or the engine.
+  const setNum = (key: string, raw: number) => {
+    if (Number.isFinite(raw)) onCfg(stage.id, { [key]: raw });
+  };
+  const inputCls =
+    "rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-right font-mono text-xs";
+
   return (
     <Reorder.Item value={stage} dragListener={false} dragControls={controls}>
       <VConnector runKey={runKey} delay={0.1 + index * 0.12} />
-      <div className="glass flex items-center gap-3 rounded-2xl border border-[var(--color-border)] p-3">
+      <div
+        className={`glass flex items-center gap-3 rounded-2xl border p-3 transition-colors ${
+          warning ? "border-amber-400/50" : "border-[var(--color-border)]"
+        }`}
+      >
         <button
           type="button"
           aria-label="Drag to reorder"
@@ -75,34 +92,52 @@ function StageItem({
         {stage.type === "filter" && (
           <input
             type="number"
+            aria-label="Minimum volume"
             value={Number(stage.cfg.min)}
             step={100000}
-            onChange={(e) => onCfg(stage.id, { min: Number(e.target.value) })}
-            className="w-24 rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-right font-mono text-xs"
+            min={0}
+            onChange={(e) => setNum("min", e.target.valueAsNumber)}
+            onBlur={() =>
+              onCfg(stage.id, { min: Math.max(0, Number(stage.cfg.min) || 0) })
+            }
+            className={`w-24 ${inputCls}`}
           />
         )}
         {stage.type === "ma" && (
           <input
             type="number"
+            aria-label="Moving average window (days)"
             value={Number(stage.cfg.window)}
             min={2}
             max={60}
-            onChange={(e) => onCfg(stage.id, { window: Number(e.target.value) })}
-            className="w-16 rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-right font-mono text-xs"
+            onChange={(e) => setNum("window", e.target.valueAsNumber)}
+            onBlur={() =>
+              onCfg(stage.id, {
+                window: clamp(Math.round(Number(stage.cfg.window)) || 20, 2, 60),
+              })
+            }
+            className={`w-16 ${inputCls}`}
           />
         )}
         {stage.type === "topn" && (
           <input
             type="number"
+            aria-label="Top N rows by volume"
             value={Number(stage.cfg.n)}
             min={1}
             max={60}
-            onChange={(e) => onCfg(stage.id, { n: Number(e.target.value) })}
-            className="w-16 rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-right font-mono text-xs"
+            onChange={(e) => setNum("n", e.target.valueAsNumber)}
+            onBlur={() =>
+              onCfg(stage.id, {
+                n: clamp(Math.round(Number(stage.cfg.n)) || 10, 1, 60),
+              })
+            }
+            className={`w-16 ${inputCls}`}
           />
         )}
         {stage.type === "resample" && (
           <select
+            aria-label="Resample frequency"
             value={String(stage.cfg.freq)}
             onChange={(e) => onCfg(stage.id, { freq: e.target.value })}
             className="rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-xs"
@@ -121,6 +156,12 @@ function StageItem({
           ✕
         </button>
       </div>
+      {warning && (
+        <div className="mt-1.5 flex items-start gap-1.5 px-1 text-[0.68rem] text-amber-300/90">
+          <span aria-hidden>⚠</span>
+          <span>{warning}</span>
+        </div>
+      )}
     </Reorder.Item>
   );
 }
@@ -160,25 +201,40 @@ export default function Playground() {
   };
 
   const rows = result.rows;
+  const hasRows = rows.length > 0;
   const first = rows[0];
   const last = rows[rows.length - 1];
-  const change =
-    first && last ? ((last.close / first.close - 1) * 100).toFixed(2) : "0";
-  const avgVol = rows.length
+  const changeNum =
+    first && last ? (last.close / first.close - 1) * 100 : null;
+  const avgVol = hasRows
     ? Math.round(rows.reduce((a, r) => a + r.volume, 0) / rows.length)
     : 0;
 
+  // Stage-level warnings keyed by stage id, plus pipeline-level notices.
+  const warnMap = new Map<string, string>();
+  result.warnings.forEach((w) => {
+    if (w.scope === "stage" && w.stageId && !warnMap.has(w.stageId))
+      warnMap.set(w.stageId, w.message);
+  });
+  const pipelineWarnings = result.warnings.filter((w) => w.scope === "pipeline");
+
+  // Empty result → neutral em-dashes rather than a misleading green $0 / 0%.
   const kpis = [
     { label: "rows", value: rows.length.toString() },
     {
       label: result.mode === "returns" ? "last return" : "last close",
-      value:
-        result.mode === "returns"
+      value: !hasRows
+        ? "—"
+        : result.mode === "returns"
           ? `${last?.ret ?? 0}%`
           : `$${last?.close ?? 0}`,
     },
-    { label: "period change", value: `${change}%`, pos: Number(change) >= 0 },
-    { label: "avg volume", value: `${(avgVol / 1e6).toFixed(2)}M` },
+    {
+      label: "period change",
+      value: changeNum === null ? "—" : `${changeNum.toFixed(2)}%`,
+      pos: changeNum === null ? undefined : changeNum >= 0,
+    },
+    { label: "avg volume", value: hasRows ? `${(avgVol / 1e6).toFixed(2)}M` : "—" },
   ];
 
   const copySql = async () => {
@@ -270,7 +326,15 @@ export default function Playground() {
 
           <Reorder.Group axis="y" values={stages} onReorder={reorder} className="list-none">
             {stages.map((s, i) => (
-              <StageItem key={s.id} stage={s} index={i} runKey={runKey} onRemove={removeStage} onCfg={onCfg} />
+              <StageItem
+                key={s.id}
+                stage={s}
+                index={i}
+                runKey={runKey}
+                warning={warnMap.get(s.id)}
+                onRemove={removeStage}
+                onCfg={onCfg}
+              />
             ))}
           </Reorder.Group>
 
@@ -290,6 +354,20 @@ export default function Playground() {
               <div className="font-mono text-[0.68rem] text-[var(--color-muted)]">chart · table · SQL</div>
             </div>
           </div>
+
+          {pipelineWarnings.map((w, i) => (
+            <div
+              key={i}
+              className={`mt-3 flex items-start gap-2 rounded-xl border px-3 py-2 text-xs ${
+                w.level === "warn"
+                  ? "border-amber-400/40 bg-amber-400/10 text-amber-200"
+                  : "border-[var(--color-border)] bg-[var(--surface-1)] text-[var(--color-muted)]"
+              }`}
+            >
+              <span aria-hidden>{w.level === "warn" ? "⚠" : "ℹ"}</span>
+              <span>{w.message}</span>
+            </div>
+          ))}
 
           <button
             onClick={bump}
