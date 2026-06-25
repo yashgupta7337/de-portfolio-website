@@ -136,19 +136,27 @@ function StageItem({
           />
         )}
         {stage.type === "resample" && (
-          <select
+          <div
+            role="group"
             aria-label="Resample frequency"
-            value={String(stage.cfg.freq)}
-            onChange={(e) => onCfg(stage.id, { freq: e.target.value })}
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-xs text-[var(--color-fg)]"
+            className="inline-flex shrink-0 rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] p-0.5 text-[0.7rem]"
           >
-            <option value="weekly" className="bg-[var(--color-ink-2)] text-[var(--color-fg)]">
-              weekly
-            </option>
-            <option value="monthly" className="bg-[var(--color-ink-2)] text-[var(--color-fg)]">
-              monthly
-            </option>
-          </select>
+            {(["weekly", "monthly"] as const).map((f) => (
+              <button
+                key={f}
+                type="button"
+                aria-pressed={stage.cfg.freq === f}
+                onClick={() => onCfg(stage.id, { freq: f })}
+                className={`rounded-md px-2 py-1 transition ${
+                  stage.cfg.freq === f
+                    ? "bg-[var(--color-surface)] font-semibold text-[var(--color-fg)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-fg)]"
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
         )}
 
         <button
