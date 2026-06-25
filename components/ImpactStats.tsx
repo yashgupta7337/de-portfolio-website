@@ -1,26 +1,29 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { impactStats } from "@/lib/content";
 import Counter from "./Counter";
 import Reveal from "./Reveal";
 
-/** Green pyramid (triangle) showing the direction of improvement. */
-function Pyramid({ dir }: { dir: "up" | "down" }) {
+/** Green pyramid (triangle) that bobs a little in its improvement direction. */
+function Pyramid({ dir, reduce }: { dir: "up" | "down"; reduce: boolean | null }) {
+  const dy = dir === "up" ? -2 : 2;
   return (
-    <svg
+    <motion.svg
       width="0.6em"
       height="0.6em"
       viewBox="0 0 16 16"
       aria-hidden
       className="shrink-0"
       style={{ filter: "drop-shadow(0 0 5px rgba(52,211,153,0.75))" }}
+      animate={reduce ? undefined : { y: [0, dy, 0] }}
+      transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
     >
       <path
         d={dir === "up" ? "M8 1.5 L14.5 14 H1.5 Z" : "M1.5 2 H14.5 L8 14.5 Z"}
         fill="#34d399"
       />
-    </svg>
+    </motion.svg>
   );
 }
 
@@ -28,11 +31,11 @@ function Pyramid({ dir }: { dir: "up" | "down" }) {
 function TrendLine({ after, from, to }: { after: number; from: string; to: string }) {
   const y0 = 7; // start high
   const y1 = 7 + (1 - after) * 24; // end lower the bigger the cut
-  const line = `M4 ${y0} C 38 ${y0}, 58 ${y1.toFixed(1)}, 96 ${y1.toFixed(1)}`;
-  const area = `${line} L96 36 L4 36 Z`;
+  const line = `M2 ${y0} C 38 ${y0}, 58 ${y1.toFixed(1)}, 98 ${y1.toFixed(1)}`;
+  const area = `${line} L98 36 L2 36 Z`;
   const gid = `tl-${from}-${to}`.replace(/[^a-z0-9]/gi, "");
   return (
-    <div className="mt-3">
+    <div className="mt-3 px-3">
       <svg viewBox="0 0 100 40" className="h-12 w-full overflow-visible" aria-hidden>
         <defs>
           <linearGradient id={`${gid}-s`} x1="0" y1="0" x2="1" y2="0">
@@ -64,7 +67,7 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         />
         <motion.circle
-          cx="96"
+          cx="98"
           cy={y1}
           r="2.6"
           fill="#67e8f9"
@@ -75,7 +78,7 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           transition={{ duration: 0.4, delay: 0.85 }}
         />
       </svg>
-      <div className="mt-1 flex items-center justify-between font-mono text-[0.6rem]">
+      <div className="-mt-0.5 flex items-center justify-between font-mono text-[0.6rem]">
         <span className="text-rose-400/90 drop-shadow-[0_0_6px_rgba(244,63,94,0.5)]">
           {from}
         </span>
@@ -88,13 +91,13 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
 }
 
 /** Live, continuously scrolling line that stays high — depicts 100% uptime. */
-function UptimeLine({ from, to }: { from: string; to: string }) {
+function UptimeLine() {
   // Gentle ripple around a high baseline, period 50 so a -100 scroll loops seamlessly.
   const wave =
     "M0 11 Q 12.5 8 25 11 T 50 11 T 75 11 T 100 11 T 125 11 T 150 11 T 175 11 T 200 11";
   const fill = `${wave} L200 36 L0 36 Z`;
   return (
-    <div className="mt-3">
+    <div className="mt-3 px-3">
       <svg viewBox="0 0 100 40" className="h-12 w-full overflow-hidden" aria-hidden>
         <defs>
           <linearGradient id="ut-f" x1="0" y1="0" x2="0" y2="1">
@@ -137,18 +140,19 @@ function UptimeLine({ from, to }: { from: string; to: string }) {
           />
         </circle>
       </svg>
-      <div className="mt-1 flex items-center justify-between font-mono text-[0.6rem]">
-        <span className="text-[var(--color-muted)]">{from}</span>
+      <div className="-mt-0.5 flex items-center justify-between font-mono text-[0.6rem]">
         <span className="flex items-center gap-1 font-semibold text-emerald-300 drop-shadow-[0_0_6px_rgba(52,211,153,0.5)]">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-          {to}
+          100% uptime
         </span>
+        <span className="text-[var(--color-muted)]">0 drops</span>
       </div>
     </div>
   );
 }
 
 export default function ImpactStats() {
+  const reduce = useReducedMotion();
   return (
     <section id="impact" className="relative py-10">
       <div className="container-x">
@@ -161,13 +165,13 @@ export default function ImpactStats() {
             >
               <div className="flex items-center justify-center gap-1.5 text-[clamp(2rem,4vw,2.75rem)] font-extrabold leading-none tracking-tight">
                 <Counter to={s.value} suffix={s.suffix} className="grad-text" />
-                <Pyramid dir={s.dir} />
+                <Pyramid dir={s.dir} reduce={reduce} />
               </div>
               <div className="mt-2 text-sm text-[var(--color-muted)]">
                 {s.label}
               </div>
               {"live" in s && s.live ? (
-                <UptimeLine from={s.from} to={s.to} />
+                <UptimeLine />
               ) : (
                 <TrendLine after={s.after} from={s.from} to={s.to} />
               )}
