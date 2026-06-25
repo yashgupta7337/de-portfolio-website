@@ -33,9 +33,9 @@ const layers: Layer[] = [
     role: "Raw landing",
     desc: "Raw data lands exactly as it arrives — from S3 drops, DMS change-data-capture streams and source databases. Immutable, replayable, schema-on-read.",
     tools: ["S3", "DMS", "Glue"],
-    disc: "from-amber-600 to-orange-800",
-    ring: "ring-amber-400/70",
-    text: "text-amber-300",
+    disc: "from-blue-500 to-blue-700",
+    ring: "ring-blue-400/70",
+    text: "text-blue-300",
   },
   {
     key: "silver",
@@ -43,9 +43,9 @@ const layers: Layer[] = [
     role: "Cleansed & conformed",
     desc: "Spark on EMR with Apache Hudi dedupes, conforms and upserts the raw feeds into governed, query-ready tables — with time-travel and incremental processing.",
     tools: ["Spark", "EMR", "Hudi"],
-    disc: "from-slate-300 to-slate-500",
-    ring: "ring-slate-200/70",
-    text: "text-slate-200",
+    disc: "from-cyan-400 to-cyan-600",
+    ring: "ring-cyan-300/70",
+    text: "text-cyan-200",
   },
   {
     key: "gold",
@@ -53,9 +53,9 @@ const layers: Layer[] = [
     role: "Serving layer",
     desc: "Curated marts and rollups served from ClickHouse — the sub-5-second layer that powers dashboards, alerting and every downstream consumer.",
     tools: ["ClickHouse", "Airflow", "dbt"],
-    disc: "from-yellow-300 to-amber-500",
-    ring: "ring-yellow-300/80",
-    text: "text-yellow-200",
+    disc: "from-emerald-400 to-emerald-600",
+    ring: "ring-emerald-300/80",
+    text: "text-emerald-200",
   },
 ];
 
@@ -95,7 +95,7 @@ export default function Medallion() {
                     }`}
                   >
                     <span
-                      className={`grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br ${l.disc} font-mono text-xs font-bold text-black/70 shadow-md ring-2 transition ${
+                      className={`grid h-11 w-11 shrink-0 place-items-center rounded-full bg-gradient-to-br ${l.disc} font-mono text-xs font-bold text-white shadow-md ring-2 transition ${
                         active === i ? l.ring : "ring-transparent"
                       }`}
                     >

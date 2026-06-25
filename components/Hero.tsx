@@ -112,7 +112,7 @@ export default function Hero() {
               <span
                 key={p.name}
                 title={p.name}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-slate-900/5 bg-[#f8fafc] p-1.5 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] p-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-400/40"
               >
                 <img
                   src={`/logos/${p.logo}.svg`}

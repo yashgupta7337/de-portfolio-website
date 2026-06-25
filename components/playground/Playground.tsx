@@ -10,6 +10,7 @@ import {
 import { tickers, barsFor } from "@/lib/stockData";
 import { runPipeline, stageDefs, type Stage, type StageType } from "@/lib/pipeline";
 import Chart from "./Chart";
+import { BarChartIcon } from "../BarChartIcon";
 
 let _id = 0;
 const newId = () => `s${++_id}`;
@@ -372,7 +373,9 @@ export default function Playground() {
 
           {/* sink node */}
           <div className="flex items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-500/5 p-3">
-            <span className="grid h-9 w-9 place-items-center rounded-xl border border-emerald-400/30 bg-black/20 text-sm">📊</span>
+            <span className="grid h-9 w-9 place-items-center rounded-xl border border-emerald-400/30 bg-black/20">
+            <BarChartIcon className="h-5 w-5" />
+          </span>
             <div>
               <div className="text-sm font-semibold">Sink · visualize</div>
               <div className="font-mono text-[0.68rem] text-[var(--color-muted)]">chart · table · SQL</div>

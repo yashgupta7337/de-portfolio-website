@@ -56,7 +56,7 @@ function Node({
   return (
     <div className="flex shrink-0 flex-col items-center gap-1.5">
       {logo ? (
-        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-slate-900/5 bg-[#f8fafc] p-2 shadow-sm">
+        <div className="grid h-12 w-12 place-items-center rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] p-2">
           <img
             src={logo.includes(".") ? `/logos/${logo}` : `/logos/${logo}.svg`}
             alt={label}

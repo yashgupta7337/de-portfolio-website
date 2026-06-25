@@ -1,6 +1,7 @@
 import { upcoming } from "@/lib/content";
 import SectionHead from "./SectionHead";
 import Reveal from "./Reveal";
+import { BarChartIcon } from "./BarChartIcon";
 
 export default function Upcoming() {
   return (
@@ -20,7 +21,11 @@ export default function Upcoming() {
             <Reveal key={item.title} delay={i * 0.06}>
               <article className="glass glass-hover flex h-full items-start gap-4 rounded-2xl p-5">
                 <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] text-xl">
-                  {item.icon}
+                  {item.icon === "chart" ? (
+                    <BarChartIcon className="h-6 w-6" />
+                  ) : (
+                    item.icon
+                  )}
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2.5">

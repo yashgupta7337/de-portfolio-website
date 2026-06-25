@@ -338,7 +338,7 @@ export const upcoming = [
     body: "Field notes from RisingWave, Dagster, dbt & Olake — streaming and orchestration evaluations.",
   },
   {
-    icon: "📊",
+    icon: "chart",
     title: "Live demos",
     body: "Interactive walkthroughs of real-time monitoring and data-quality pipelines.",
   },

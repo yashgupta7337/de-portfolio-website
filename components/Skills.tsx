@@ -26,7 +26,7 @@ export default function Skills() {
                     <div key={it.name} className="group relative">
                       <div
                         title={it.name}
-                        className="grid h-14 w-14 place-items-center rounded-2xl border border-slate-900/5 bg-[#f8fafc] p-2.5 shadow-[0_2px_10px_-3px_rgba(0,0,0,0.15)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_12px_24px_-8px_rgba(34,211,238,0.45)] hover:ring-2 hover:ring-cyan-400/60"
+                        className="grid h-14 w-14 place-items-center rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] p-2.5 transition duration-300 hover:-translate-y-1 hover:border-cyan-400/40 hover:shadow-[0_12px_24px_-8px_rgba(34,211,238,0.45)] hover:ring-2 hover:ring-cyan-400/60"
                       >
                         <img
                           src={
