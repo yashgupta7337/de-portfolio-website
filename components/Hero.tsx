@@ -109,18 +109,25 @@ export default function Hero() {
               Working across
             </span>
             {pills.map((p) => (
-              <span
-                key={p.name}
-                title={p.name}
-                className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] p-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-400/40"
-              >
-                <img
-                  src={`/logos/${p.logo}.svg`}
-                  alt={p.name}
-                  loading="lazy"
-                  className="h-full w-full object-contain"
-                />
-              </span>
+              <div key={p.name} className="group relative">
+                <span
+                  title={p.name}
+                  className="grid h-10 w-10 place-items-center rounded-xl border border-[var(--color-border)] bg-[var(--surface-1)] p-1.5 transition duration-300 hover:-translate-y-0.5 hover:border-cyan-400/40"
+                >
+                  <img
+                    src={`/logos/${p.logo}.svg`}
+                    alt={p.name}
+                    loading="lazy"
+                    className="h-full w-full object-contain"
+                  />
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 max-w-[8rem] -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--color-fg)] px-2.5 py-1 text-center text-xs font-medium leading-tight text-[var(--color-ink)] opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100"
+                >
+                  {p.name}
+                </span>
+              </div>
             ))}
           </motion.div>
         </div>
