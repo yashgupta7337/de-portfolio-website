@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
 import { profile, navLinks } from "@/lib/content";
 import ThemeToggle from "./ThemeToggle";
 import { ResumeButton } from "./ResumeViewer";
@@ -26,6 +26,7 @@ export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState("");
+  const reduce = useReducedMotion();
 
   // Continuous, GPU-accelerated scroll progress (transform scaleX, spring-smoothed)
   const { scrollYProgress } = useScroll();
@@ -81,8 +82,38 @@ export default function Nav() {
         }`}
       >
         <a href="#home" className="flex items-center gap-2.5 font-semibold">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-emerald-500 font-mono text-base font-extrabold text-white shadow-lg">
+          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-blue-500 to-emerald-500 font-mono text-base font-extrabold text-white shadow-lg">
             Y
+            {!reduce && (
+              <svg
+                viewBox="0 0 36 36"
+                className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
+                aria-hidden
+              >
+                <path
+                  id="y-orbit"
+                  d="M11 2 H25 A9 9 0 0 1 34 11 V25 A9 9 0 0 1 25 34 H11 A9 9 0 0 1 2 25 V11 A9 9 0 0 1 11 2 Z"
+                  fill="none"
+                />
+                <g style={{ filter: "drop-shadow(0 0 2.5px rgba(190,245,255,0.95))" }}>
+                  <path
+                    d="M0 -2.6 L0.7 -0.7 L2.6 0 L0.7 0.7 L0 2.6 L-0.7 0.7 L-2.6 0 L-0.7 -0.7 Z"
+                    fill="#f0fdff"
+                  >
+                    <animateMotion dur="3.6s" repeatCount="indefinite" rotate="auto">
+                      <mpath xlinkHref="#y-orbit" />
+                    </animateMotion>
+                    <animate
+                      attributeName="opacity"
+                      values="0.35;1;1;0.35"
+                      keyTimes="0;0.15;0.85;1"
+                      dur="3.6s"
+                      repeatCount="indefinite"
+                    />
+                  </path>
+                </g>
+              </svg>
+            )}
           </span>
           <span className="text-[0.95rem] tracking-tight">{profile.name}</span>
         </a>
