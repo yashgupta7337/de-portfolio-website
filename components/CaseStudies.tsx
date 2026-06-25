@@ -53,7 +53,7 @@ export default function CaseStudies() {
 
                   {/* before → after metric */}
                   <div className="mt-4 flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] p-3.5">
-                    <span className="font-mono text-lg font-bold text-[var(--fg-mute)] line-through decoration-rose-400/50">
+                    <span className="font-mono text-lg font-bold text-rose-400">
                       {c.metric.from}
                     </span>
                     <svg

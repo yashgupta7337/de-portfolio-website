@@ -29,7 +29,7 @@ function MiniBars({
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
-        <span className="font-mono text-[0.6rem] text-[var(--fg-dim)] line-through decoration-rose-400/40">
+        <span className="font-mono text-[0.6rem] text-rose-400/90">
           {from}
         </span>
       </div>

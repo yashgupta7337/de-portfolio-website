@@ -157,9 +157,7 @@ export default function Orchestrator() {
               Query SLA
             </div>
             <div className="mt-1 font-mono text-2xl font-bold">
-              <span className="text-white/40 line-through decoration-rose-400/60">
-                60s
-              </span>{" "}
+              <span className="text-rose-400">60s</span>{" "}
               <span className="grad-text">5s</span>
             </div>
             <div className="mt-0.5 text-[0.7rem] text-emerald-400">
