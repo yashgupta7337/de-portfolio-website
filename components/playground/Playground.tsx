@@ -140,10 +140,14 @@ function StageItem({
             aria-label="Resample frequency"
             value={String(stage.cfg.freq)}
             onChange={(e) => onCfg(stage.id, { freq: e.target.value })}
-            className="rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-xs"
+            className="rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] px-2 py-1 text-xs text-[var(--color-fg)]"
           >
-            <option value="weekly">weekly</option>
-            <option value="monthly">monthly</option>
+            <option value="weekly" className="bg-[var(--color-ink-2)] text-[var(--color-fg)]">
+              weekly
+            </option>
+            <option value="monthly" className="bg-[var(--color-ink-2)] text-[var(--color-fg)]">
+              monthly
+            </option>
           </select>
         )}
 
