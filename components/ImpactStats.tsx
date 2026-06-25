@@ -96,12 +96,18 @@ function UptimeLine() {
   const wave =
     "M0 11 Q 12.5 8 25 11 T 50 11 T 75 11 T 100 11 T 125 11 T 150 11 T 175 11 T 200 11";
   const fill = `${wave} L200 36 L0 36 Z`;
+  // The leading dot stays at x=96; its y tracks the wave value passing under it
+  // as the line scrolls. Sampled over one loop (independent of speed), so the
+  // dot rides exactly on the line. Both animations share the SVG clock → no drift.
+  const dotCy = "12.45;9.45;8;9.55;12.55;14;12.45;9.45;8;9.55;12.55;14;12.45";
+  const keyTimes =
+    "0;0.0833;0.1667;0.25;0.3333;0.4167;0.5;0.5833;0.6667;0.75;0.8333;0.9167;1";
   return (
     <div className="mt-3 px-3">
-      <svg viewBox="0 0 100 40" className="h-12 w-full overflow-hidden" aria-hidden>
+      <svg viewBox="0 0 100 40" className="h-12 w-full overflow-visible" aria-hidden>
         <defs>
           <linearGradient id="ut-f" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="rgba(52,211,153,0.25)" />
+            <stop offset="0%" stopColor="rgba(52,211,153,0.28)" />
             <stop offset="100%" stopColor="rgba(52,211,153,0)" />
           </linearGradient>
           <clipPath id="ut-clip">
@@ -109,10 +115,7 @@ function UptimeLine() {
           </clipPath>
         </defs>
         <g clipPath="url(#ut-clip)">
-          <motion.g
-            animate={{ x: [0, -100] }}
-            transition={{ duration: 4.5, repeat: Infinity, ease: "linear" }}
-          >
+          <g>
             <path d={fill} fill="url(#ut-f)" />
             <path
               d={wave}
@@ -122,20 +125,29 @@ function UptimeLine() {
               strokeLinecap="round"
               style={{ filter: "drop-shadow(0 0 3px rgba(52,211,153,0.7))" }}
             />
-          </motion.g>
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              values="0 0; -100 0"
+              dur="3.6s"
+              calcMode="linear"
+              repeatCount="indefinite"
+            />
+          </g>
         </g>
-        {/* live marker pinned at the leading edge */}
+        {/* leading dot — rides the line at the live edge */}
         <circle
-          cx="92"
-          cy="11"
+          cx="96"
           r="2.6"
-          fill="#6ee7b7"
+          fill="#ecfdf5"
           style={{ filter: "drop-shadow(0 0 5px rgba(52,211,153,0.95))" }}
         >
           <animate
-            attributeName="opacity"
-            values="0.5;1;0.5"
-            dur="1.6s"
+            attributeName="cy"
+            values={dotCy}
+            keyTimes={keyTimes}
+            dur="3.6s"
+            calcMode="linear"
             repeatCount="indefinite"
           />
         </circle>
