@@ -66,7 +66,7 @@ function StageItem({
     <Reorder.Item value={stage} dragListener={false} dragControls={controls}>
       <VConnector runKey={runKey} delay={0.1 + index * 0.12} />
       <div
-        className={`glass flex items-center gap-3 rounded-2xl border p-3 transition-colors ${
+        className={`glass flex items-center gap-2.5 rounded-2xl border p-3 transition-colors ${
           warning ? "border-amber-400/50" : "border-[var(--color-border)]"
         }`}
       >
@@ -82,7 +82,7 @@ function StageItem({
           {def.icon}
         </span>
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold">{def.label}</div>
+          <div className="truncate text-sm font-semibold">{def.label}</div>
           <div className="break-words font-mono text-[0.68rem] leading-tight text-[var(--color-muted)]">
             {def.summary(stage.cfg)}
           </div>
@@ -139,7 +139,7 @@ function StageItem({
           <div
             role="group"
             aria-label="Resample frequency"
-            className="inline-flex shrink-0 rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] p-0.5 text-[0.7rem]"
+            className="inline-flex shrink-0 whitespace-nowrap rounded-lg border border-[var(--color-border)] bg-[var(--surface-1)] p-0.5 text-[0.6rem]"
           >
             {(["weekly", "monthly"] as const).map((f) => (
               <button
@@ -147,7 +147,7 @@ function StageItem({
                 type="button"
                 aria-pressed={stage.cfg.freq === f}
                 onClick={() => onCfg(stage.id, { freq: f })}
-                className={`rounded-md px-2 py-1 transition ${
+                className={`rounded-md px-1.5 py-1 transition ${
                   stage.cfg.freq === f
                     ? "bg-[var(--color-surface)] font-semibold text-[var(--color-fg)]"
                     : "text-[var(--color-muted)] hover:text-[var(--color-fg)]"
