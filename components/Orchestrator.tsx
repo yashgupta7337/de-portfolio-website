@@ -156,9 +156,14 @@ export default function Orchestrator() {
             <div className="text-[0.65rem] uppercase tracking-wider text-[var(--color-muted)]">
               Query SLA
             </div>
-            <div className="mt-1 font-mono text-2xl font-bold">
-              <span className="text-rose-400">60s</span>{" "}
-              <span className="grad-text">5s</span>
+            <div className="mt-1 flex items-baseline gap-1.5 font-mono font-bold">
+              <span className="text-base text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.5)]">
+                60s
+              </span>
+              <span className="text-sm text-[var(--color-muted)]">→</span>
+              <span className="grad-text text-2xl drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]">
+                5s
+              </span>
             </div>
             <div className="mt-0.5 text-[0.7rem] text-emerald-400">
               ↓ 12× faster

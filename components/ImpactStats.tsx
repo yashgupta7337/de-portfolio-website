@@ -29,7 +29,7 @@ function MiniBars({
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
-        <span className="font-mono text-[0.6rem] text-rose-400/90">
+        <span className="font-mono text-[0.6rem] text-rose-400/90 drop-shadow-[0_0_6px_rgba(244,63,94,0.55)]">
           {from}
         </span>
       </div>
@@ -47,7 +47,7 @@ function MiniBars({
             transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
           />
         </div>
-        <span className="font-mono text-[0.6rem] font-semibold text-cyan-300">
+        <span className="font-mono text-[0.6rem] font-semibold text-cyan-300 drop-shadow-[0_0_6px_rgba(34,211,238,0.55)]">
           {to}
         </span>
       </div>

@@ -53,7 +53,7 @@ export default function CaseStudies() {
 
                   {/* before → after metric */}
                   <div className="mt-4 flex items-center gap-3 rounded-2xl border border-[var(--color-border)] bg-[var(--surface-1)] p-3.5">
-                    <span className="font-mono text-lg font-bold text-rose-400">
+                    <span className="font-mono text-lg font-bold text-rose-400 drop-shadow-[0_0_8px_rgba(244,63,94,0.45)]">
                       {c.metric.from}
                     </span>
                     <svg
@@ -71,7 +71,7 @@ export default function CaseStudies() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span className={`font-mono text-2xl font-extrabold ${a.to}`}>
+                    <span className={`font-mono text-2xl font-extrabold drop-shadow-[0_0_10px_rgba(34,211,238,0.45)] ${a.to}`}>
                       {c.metric.to}
                     </span>
                     <span className="ml-auto text-right text-[0.7rem] leading-tight text-[var(--color-muted)]">
