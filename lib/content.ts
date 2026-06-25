@@ -16,12 +16,13 @@ export const profile = {
 export const impactStats = [
   {
     value: 90,
-    suffix: "%+",
+    suffix: "%",
     label: "Query latency reduced",
     from: "60s",
     to: "5s",
     before: 1,
     after: 0.1,
+    dir: "down" as const,
   },
   {
     value: 40,
@@ -31,6 +32,7 @@ export const impactStats = [
     to: "60%",
     before: 1,
     after: 0.6,
+    dir: "down" as const,
   },
   {
     value: 300,
@@ -40,6 +42,8 @@ export const impactStats = [
     to: "300GB",
     before: 0.04,
     after: 1,
+    dir: "up" as const,
+    live: true as const,
   },
   {
     value: 35,
@@ -49,6 +53,7 @@ export const impactStats = [
     to: "65%",
     before: 1,
     after: 0.65,
+    dir: "down" as const,
   },
 ];
 

@@ -39,24 +39,21 @@ export default function LogoBadge({
         >
           <path id={orbitId} d={path} fill="none" />
           <g
-            style={{ filter: "drop-shadow(0 0 2px rgba(190,245,255,0.9))" }}
+            style={{ filter: "drop-shadow(0 0 3px rgba(125,230,255,0.95))" }}
           >
-            {/* sharp 4-point sparkle, kept upright as it travels */}
-            <path
-              d="M0,-2.8 C0.35,-0.9 0.9,-0.35 2.8,0 C0.9,0.35 0.35,0.9 0,2.8 C-0.35,0.9 -0.9,0.35 -2.8,0 C-0.9,-0.35 -0.35,-0.9 0,-2.8 Z"
-              fill="#f5feff"
-            >
+            {/* a glowing data packet tracing the border */}
+            <circle r="1.7" fill="#eafdff">
               <animateMotion dur={dur} repeatCount="indefinite" calcMode="linear">
                 <mpath xlinkHref={`#${orbitId}`} />
               </animateMotion>
               <animate
                 attributeName="opacity"
-                values="0.45;1;0.45"
+                values="0.5;1;0.5"
                 keyTimes="0;0.5;1"
                 dur="2.2s"
                 repeatCount="indefinite"
               />
-            </path>
+            </circle>
           </g>
         </svg>
       )}
