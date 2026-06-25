@@ -7,7 +7,7 @@ import Reveal from "./Reveal";
 
 /** Green pyramid (triangle) that bobs a little in its improvement direction. */
 function Pyramid({ dir, reduce }: { dir: "up" | "down"; reduce: boolean | null }) {
-  const dy = dir === "up" ? -2 : 2;
+  const dy = dir === "up" ? -2.2 : 2.2;
   return (
     <motion.svg
       width="0.6em"
@@ -16,7 +16,7 @@ function Pyramid({ dir, reduce }: { dir: "up" | "down"; reduce: boolean | null }
       aria-hidden
       className="shrink-0"
       style={{ filter: "drop-shadow(0 0 5px rgba(52,211,153,0.75))" }}
-      animate={reduce ? undefined : { y: [0, dy, 0] }}
+      animate={reduce ? undefined : { y: [0, dy, 0], x: [0, 0.4, 0] }}
       transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
     >
       <path
