@@ -42,18 +42,16 @@ export default function Counter({
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration]);
 
-  // Reserve the final width with an invisible ghost so the count-up doesn't
-  // reflow (and shake) adjacent elements; the animating value overlays it.
+  // Reserve the final width with an invisible ghost (kept in normal flow so it
+  // defines the baseline/size) and overlay the animating value, so the count-up
+  // doesn't reflow and shake adjacent elements.
   return (
-    <span
-      ref={ref}
-      className="relative inline-grid justify-items-center tabular-nums"
-    >
+    <span ref={ref} className="relative inline-block tabular-nums">
       <span className={`invisible ${className ?? ""}`} aria-hidden>
         {to}
         {suffix}
       </span>
-      <span className={`col-start-1 row-start-1 ${className ?? ""}`}>
+      <span className={`absolute inset-0 text-center ${className ?? ""}`}>
         {value}
         {suffix}
       </span>
