@@ -83,7 +83,7 @@ function StageItem({
         </span>
         <div className="min-w-0 flex-1">
           <div className="text-sm font-semibold">{def.label}</div>
-          <div className="truncate font-mono text-[0.68rem] text-[var(--color-muted)]">
+          <div className="break-words font-mono text-[0.68rem] leading-tight text-[var(--color-muted)]">
             {def.summary(stage.cfg)}
           </div>
         </div>

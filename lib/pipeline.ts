@@ -107,6 +107,13 @@ function computeWarnings(
   return w;
 }
 
+// Compact number for stage summaries — keeps chips short (1,000,000 → "1M").
+const compact = (n: number) =>
+  new Intl.NumberFormat("en", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(Number.isFinite(n) ? n : 0);
+
 export const stageDefs: Record<
   StageType,
   {
@@ -122,7 +129,7 @@ export const stageDefs: Record<
     icon: "⚡",
     blurb: "Keep rows above a volume threshold",
     make: () => ({ field: "volume", min: 1_000_000 }),
-    summary: (c) => `${c.field} ≥ ${Number(c.min).toLocaleString()}`,
+    summary: (c) => `${c.field} ≥ ${compact(Number(c.min))}`,
   },
   ma: {
     label: "Moving avg",
