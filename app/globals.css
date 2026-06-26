@@ -53,17 +53,17 @@
    LIGHT overrides
    ============================================================ */
 html.light {
-  --color-ink: #f4f6fb;
-  --color-ink-2: #ffffff;
-  --color-fg: #0b1220;
-  --color-muted: #566072;
+  --color-ink: #e7eaf1;
+  --color-ink-2: #f4f6fb;
+  --color-fg: #131a28;
+  --color-muted: #586273;
 
-  --color-surface: rgba(255, 255, 255, 0.72);
-  --surface-1: rgba(12, 18, 32, 0.025);
-  --surface-2: rgba(12, 18, 32, 0.045);
-  --color-border: rgba(12, 18, 32, 0.1);
-  --border-strong: rgba(12, 18, 32, 0.16);
-  --nav-surface: rgba(248, 250, 252, 0.96);
+  --color-surface: rgba(252, 253, 255, 0.7);
+  --surface-1: rgba(12, 18, 32, 0.03);
+  --surface-2: rgba(12, 18, 32, 0.05);
+  --color-border: rgba(12, 18, 32, 0.11);
+  --border-strong: rgba(12, 18, 32, 0.17);
+  --nav-surface: rgba(238, 241, 247, 0.97);
 
   --fg-soft: rgba(11, 18, 32, 0.84);
   --fg-mute: rgba(11, 18, 32, 0.62);
