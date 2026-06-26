@@ -96,12 +96,13 @@ function UptimeLine() {
   const wave =
     "M0 11 Q 12.5 8 25 11 T 50 11 T 75 11 T 100 11 T 125 11 T 150 11 T 175 11 T 200 11";
   const fill = `${wave} L200 36 L0 36 Z`;
-  // The leading dot stays at x=96; its y tracks the wave value passing under it
-  // as the line scrolls. Sampled over one loop (independent of speed), so the
-  // dot rides exactly on the line. Both animations share the SVG clock → no drift.
-  const dotCy = "12.45;9.45;8;9.55;12.55;14;12.45;9.45;8;9.55;12.55;14;12.45";
+  // Leading dot sits exactly at the line's head (x=100). The wave value there
+  // is 11 - 3·sin(4π·u) over one loop, sampled at 1/24 steps. Both this and the
+  // scroll share the SVG clock, so the dot stays glued to the line head.
+  const dotCy =
+    "11;9.5;8.4;8;8.4;9.5;11;12.5;13.6;14;13.6;12.5;11;9.5;8.4;8;8.4;9.5;11;12.5;13.6;14;13.6;12.5;11";
   const keyTimes =
-    "0;0.0833;0.1667;0.25;0.3333;0.4167;0.5;0.5833;0.6667;0.75;0.8333;0.9167;1";
+    "0;0.0417;0.0833;0.125;0.1667;0.2083;0.25;0.2917;0.3333;0.375;0.4167;0.4583;0.5;0.5417;0.5833;0.625;0.6667;0.7083;0.75;0.7917;0.8333;0.875;0.9167;0.9583;1";
   return (
     <div className="mt-3 px-3">
       <svg viewBox="0 0 100 40" className="h-12 w-full overflow-visible" aria-hidden>
@@ -135,9 +136,9 @@ function UptimeLine() {
             />
           </g>
         </g>
-        {/* leading dot — rides the line at the live edge */}
+        {/* leading dot — sits on the head of the line at the live edge */}
         <circle
-          cx="96"
+          cx="100"
           r="2.6"
           fill="#ecfdf5"
           style={{ filter: "drop-shadow(0 0 5px rgba(52,211,153,0.95))" }}
