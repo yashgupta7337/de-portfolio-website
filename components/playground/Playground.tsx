@@ -19,16 +19,22 @@ function makeStage(type: StageType): Stage {
   return { id: newId(), type, cfg: stageDefs[type].make() };
 }
 
-function VConnector({ runKey, delay }: { runKey: number; delay: number }) {
+// Matches the hero orchestrator's connector: a flow line with a glowing data
+// packet that travels along it continuously (staggered per connector).
+function VConnector({ delay }: { delay: number }) {
   return (
     <div className="relative mx-auto h-5 w-0.5">
-      <div className="flow-line-v absolute inset-0 opacity-60" />
+      <div className="flow-line-v absolute inset-0" />
       <motion.span
-        key={runKey}
-        className="absolute left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-cyan-300 shadow-[0_0_8px_2px_rgba(34,211,238,0.7)]"
-        initial={{ top: "-10%", opacity: 0 }}
-        animate={{ top: "110%", opacity: [0, 1, 1, 0] }}
-        transition={{ duration: 0.8, delay, ease: "easeInOut" }}
+        className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-300 shadow-[0_0_10px_2px_rgba(34,211,238,0.75)]"
+        animate={{ top: ["-12%", "112%"], opacity: [0, 1, 1, 0] }}
+        transition={{
+          duration: 1.4,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay,
+          times: [0, 0.15, 0.85, 1],
+        }}
       />
     </div>
   );
@@ -40,14 +46,12 @@ const clamp = (n: number, lo: number, hi: number) =>
 function StageItem({
   stage,
   index,
-  runKey,
   warning,
   onRemove,
   onCfg,
 }: {
   stage: Stage;
   index: number;
-  runKey: number;
   warning?: string;
   onRemove: (id: string) => void;
   onCfg: (id: string, patch: Record<string, number | string>) => void;
@@ -65,7 +69,7 @@ function StageItem({
 
   return (
     <Reorder.Item value={stage} dragListener={false} dragControls={controls}>
-      <VConnector runKey={runKey} delay={0.1 + index * 0.12} />
+      <VConnector delay={index * 0.2} />
       <div
         className={`glass flex items-center gap-2.5 rounded-2xl border p-3 transition-colors ${
           warning ? "border-amber-400/50" : "border-[var(--color-border)]"
@@ -355,7 +359,6 @@ export default function Playground() {
                 key={s.id}
                 stage={s}
                 index={i}
-                runKey={runKey}
                 warning={warnMap.get(s.id)}
                 onRemove={removeStage}
                 onCfg={onCfg}
@@ -369,7 +372,7 @@ export default function Playground() {
             </p>
           )}
 
-          <VConnector runKey={runKey} delay={0.1 + stages.length * 0.12} />
+          <VConnector delay={stages.length * 0.2} />
 
           {/* sink node */}
           <div className="flex items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-500/5 p-3">
