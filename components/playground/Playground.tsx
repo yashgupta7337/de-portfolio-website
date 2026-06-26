@@ -20,20 +20,22 @@ function makeStage(type: StageType): Stage {
 }
 
 // Matches the hero orchestrator's connector: a flow line with a glowing data
-// packet that travels along it continuously (staggered per connector).
+// packet that travels along it continuously (staggered per connector). The
+// packet stays within the connector and fades at both ends so it never bleeds
+// into the node boxes above/below.
 function VConnector({ delay }: { delay: number }) {
   return (
-    <div className="relative mx-auto h-5 w-0.5">
+    <div className="relative mx-auto my-0.5 h-6 w-0.5 overflow-hidden">
       <div className="flow-line-v absolute inset-0" />
       <motion.span
-        className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-cyan-300 shadow-[0_0_10px_2px_rgba(34,211,238,0.75)]"
-        animate={{ top: ["-12%", "112%"], opacity: [0, 1, 1, 0] }}
+        className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-cyan-300 shadow-[0_0_5px_1px_rgba(34,211,238,0.7)]"
+        animate={{ y: [0, 18], opacity: [0, 1, 1, 0] }}
         transition={{
           duration: 1.4,
           repeat: Infinity,
           ease: "easeInOut",
           delay,
-          times: [0, 0.15, 0.85, 1],
+          times: [0, 0.2, 0.8, 1],
         }}
       />
     </div>
