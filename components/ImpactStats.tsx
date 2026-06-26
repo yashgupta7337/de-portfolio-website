@@ -47,13 +47,14 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
             <stop offset="100%" stopColor="rgba(34,211,238,0)" />
           </linearGradient>
         </defs>
+        {/* Statically rendered (opacity-only entrance). Avoids framer-motion
+            pathLength, which mobile Safari fails to paint. */}
         <motion.path
           d={area}
           fill={`url(#${gid}-f)`}
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
         />
         <motion.path
           d={line}
@@ -61,10 +62,9 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           stroke={`url(#${gid}-s)`}
           strokeWidth="2.5"
           strokeLinecap="round"
-          initial={{ pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         />
         <motion.circle
           cx="98"
@@ -72,10 +72,9 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           r="2.6"
           fill="#67e8f9"
           style={{ filter: "drop-shadow(0 0 4px rgba(34,211,238,0.9))" }}
-          initial={{ scale: 0, opacity: 0 }}
-          whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.4, delay: 0.85 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
         />
       </svg>
       <div className="-mt-0.5 flex items-center justify-between font-mono text-[0.6rem]">

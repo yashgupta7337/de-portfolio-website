@@ -279,9 +279,9 @@ export default function Playground() {
   };
 
   return (
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,360px)_1fr]">
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]">
       {/* ───── builder ───── */}
-      <div className="flex flex-col gap-4">
+      <div className="flex min-w-0 flex-col gap-4">
         {/* ticker picker */}
         <div className="glass rounded-2xl p-3">
           <div className="mb-2 text-[0.7rem] uppercase tracking-wider text-[var(--color-muted)]">
@@ -411,7 +411,7 @@ export default function Playground() {
       </div>
 
       {/* ───── output ───── */}
-      <div className="glass flex flex-col rounded-3xl p-4 sm:p-5">
+      <div className="glass flex min-w-0 flex-col rounded-3xl p-4 sm:p-5">
         {/* plain-english readout */}
         <div className="mb-4 flex items-start gap-2 rounded-xl border border-cyan-400/20 bg-cyan-400/5 px-3 py-2 text-xs leading-relaxed text-[var(--color-muted)]">
           <span aria-hidden>👁️</span>
@@ -461,7 +461,7 @@ export default function Playground() {
           ))}
         </div>
 
-        <div className="mt-4 flex-1">
+        <div className="mt-4 min-w-0 flex-1">
           {tab === "chart" && (
             <div className="rounded-2xl border border-[var(--color-border)] bg-black/10 p-3">
               <Chart x={result.x} primary={result.primary} overlay={result.overlay} mode={result.mode} accent={ticker.accent} runKey={runKey} />
