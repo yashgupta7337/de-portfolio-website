@@ -47,14 +47,15 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
             <stop offset="100%" stopColor="rgba(34,211,238,0)" />
           </linearGradient>
         </defs>
-        {/* Statically rendered (opacity-only entrance). Avoids framer-motion
-            pathLength, which mobile Safari fails to paint. */}
+        {/* Draw-in via strokeDashoffset (works on mobile Safari, unlike
+            framer-motion's pathLength). Triggers on scroll into view. */}
         <motion.path
           d={area}
           fill={`url(#${gid}-f)`}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.35 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, delay: 0.5 }}
         />
         <motion.path
           d={line}
@@ -62,9 +63,11 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           stroke={`url(#${gid}-s)`}
           strokeWidth="2.5"
           strokeLinecap="round"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          style={{ strokeDasharray: 150 }}
+          initial={{ strokeDashoffset: 150 }}
+          whileInView={{ strokeDashoffset: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         />
         <motion.circle
           cx="98"
@@ -73,8 +76,9 @@ function TrendLine({ after, from, to }: { after: number; from: string; to: strin
           fill="#67e8f9"
           style={{ filter: "drop-shadow(0 0 4px rgba(34,211,238,0.9))" }}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.4, delay: 0.85 }}
         />
       </svg>
       <div className="-mt-0.5 flex items-center justify-between font-mono text-[0.6rem]">
@@ -152,12 +156,11 @@ function UptimeLine() {
           />
         </circle>
       </svg>
-      <div className="-mt-0.5 flex items-center justify-between font-mono text-[0.6rem]">
-        <span className="flex items-center gap-1 font-semibold text-emerald-300 drop-shadow-[0_0_6px_rgba(52,211,153,0.5)]">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+      <div className="-mt-0.5 flex items-center justify-between gap-2 font-mono text-[0.56rem]">
+        <span className="whitespace-nowrap font-semibold text-emerald-300 drop-shadow-[0_0_6px_rgba(52,211,153,0.5)]">
           100% uptime
         </span>
-        <span className="text-[var(--color-muted)]">0 drops</span>
+        <span className="whitespace-nowrap text-[var(--color-muted)]">0 drops</span>
       </div>
     </div>
   );
@@ -179,7 +182,7 @@ export default function ImpactStats() {
                 <Counter to={s.value} suffix={s.suffix} className="grad-text" />
                 <Pyramid dir={s.dir} reduce={reduce} />
               </div>
-              <div className="mt-2 text-sm text-[var(--color-muted)]">
+              <div className="mt-2 flex min-h-[2.4rem] items-center justify-center text-sm leading-snug text-[var(--color-muted)]">
                 {s.label}
               </div>
               {"live" in s && s.live ? (

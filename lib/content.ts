@@ -90,6 +90,17 @@ export type Experience = {
 
 export const experience: Experience[] = [
   {
+    role: "Data Engineer",
+    company: "Lokal",
+    monogram: "L",
+    accent: "blue",
+    blurb:
+      "India's largest local-language content, news & community platform (YC S19).",
+    location: "Bengaluru, India",
+    date: "Jul 2026 — Present",
+    points: [],
+  },
+  {
     role: "Data Engineer I",
     company: "Connect and Heal",
     monogram: "C&H",
@@ -98,7 +109,7 @@ export const experience: Experience[] = [
     blurb:
       "Healthcare technology company focused on digital solutions to improve patient engagement and management.",
     location: "Bangalore, India",
-    date: "Jun 2024 — Present",
+    date: "Jun 2024 — Jun 2026",
     metrics: [
       { value: 12, suffix: "×", label: "faster queries" },
       { value: 40, suffix: "%", label: "cost cut" },

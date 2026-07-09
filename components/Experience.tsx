@@ -143,7 +143,7 @@ export default function Experience() {
                       </div>
                     )}
 
-                    <ExperiencePoints points={e.points} />
+                    {e.points.length > 0 && <ExperiencePoints points={e.points} />}
                   </div>
                 </div>
               </Reveal>

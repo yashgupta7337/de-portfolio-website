@@ -85,8 +85,25 @@ export default function Orchestrator() {
     logPool.slice(0, 3) as unknown as { kind: string; text: string }[]
   );
   const cursor = useRef(3);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [onScreen, setOnScreen] = useState(true);
+
+  // Pause the live updates when the hero scrolls out of view so the timers and
+  // re-renders don't compete with scrolling elsewhere on the page.
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setOnScreen(entry.isIntersecting),
+      { rootMargin: "120px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
+    if (!onScreen) return;
+
     const tick = () =>
       setTime(new Date().toLocaleTimeString("en-US", { hour12: false }));
     tick();
@@ -117,10 +134,10 @@ export default function Orchestrator() {
       clearInterval(tp);
       clearInterval(log);
     };
-  }, []);
+  }, [onScreen]);
 
   return (
-    <div className="relative">
+    <div ref={rootRef} className="relative">
       {/* glow behind */}
       <div className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-[radial-gradient(circle_at_50%_30%,rgba(34,211,238,0.25),transparent_70%)] blur-2xl" />
 
