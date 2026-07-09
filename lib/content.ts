@@ -93,6 +93,7 @@ export const experience: Experience[] = [
     role: "Data Engineer",
     company: "Lokal",
     monogram: "L",
+    logo: "/logos/lokal.svg",
     accent: "blue",
     blurb:
       "India's largest local-language content, news & community platform (YC S19).",
