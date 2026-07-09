@@ -1,29 +1,26 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { impactStats } from "@/lib/content";
 import Counter from "./Counter";
 import Reveal from "./Reveal";
 
-/** Green pyramid (triangle) that bobs a little in its improvement direction. */
-function Pyramid({ dir, reduce }: { dir: "up" | "down"; reduce: boolean | null }) {
-  const dy = dir === "up" ? -2.2 : 2.2;
+/** Static green pyramid (triangle) showing the direction of improvement. */
+function Pyramid({ dir }: { dir: "up" | "down" }) {
   return (
-    <motion.svg
+    <svg
       width="0.6em"
       height="0.6em"
       viewBox="0 0 16 16"
       aria-hidden
       className="shrink-0"
       style={{ filter: "drop-shadow(0 0 5px rgba(52,211,153,0.75))" }}
-      animate={reduce ? undefined : { y: [0, dy, 0], x: [0, 0.4, 0] }}
-      transition={{ duration: 1.7, repeat: Infinity, ease: "easeInOut" }}
     >
       <path
         d={dir === "up" ? "M8 1.5 L14.5 14 H1.5 Z" : "M1.5 2 H14.5 L8 14.5 Z"}
         fill="#34d399"
       />
-    </motion.svg>
+    </svg>
   );
 }
 
@@ -167,7 +164,6 @@ function UptimeLine() {
 }
 
 export default function ImpactStats() {
-  const reduce = useReducedMotion();
   return (
     <section id="impact" className="relative py-10">
       <div className="container-x">
@@ -180,7 +176,7 @@ export default function ImpactStats() {
             >
               <div className="flex items-center justify-center gap-1.5 text-[clamp(2rem,4vw,2.75rem)] font-extrabold leading-none tracking-tight">
                 <Counter to={s.value} suffix={s.suffix} className="grad-text" />
-                <Pyramid dir={s.dir} reduce={reduce} />
+                <Pyramid dir={s.dir} />
               </div>
               <div className="mt-2 flex min-h-[2.4rem] items-center justify-center text-sm leading-snug text-[var(--color-muted)]">
                 {s.label}
